@@ -29,6 +29,8 @@ Easily upload Lazy Load for Videos into you plugin directory (/wp-content/plugin
 
 You may have to clean the website's and browser's cache.
 
+If you don't see a preview image instead of the Youtube video, open the article editor and update/save the article again. This should help.
+
 
 == Frequently Asked Questions ==
 
