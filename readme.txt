@@ -35,16 +35,13 @@ You may have to clean the website's and browser's cache.
 Search for keywords using "STRG + F" keyboard shortcut (Mac: "CMD + F").
 
 = Where can I see this plugin in use? =
-
 For example, on http://kevinw.de/greenbird/.
 
-= On a post I don't see a preview image instead of the Youtube video… =
-1. Open the article editor and update/save the article again. This should help.
-2. Else: Remove everything after the "v" parameter in your Youtube url. For example, shorten http://www.youtube.com/watch?v=IJNR2EpS0jw&feature=player_embedded to http://www.youtube.com/watch?v=IJNR2EpS0jw and save again.
-3. Else: Report me your bug!
-
-= Videos from which platforms are supported? =
+= Which video platforms are supported? =
 Videos from the biggest video platform, Youtube (http://youtube.com) are supported. In future versions support for Vimeo (http://vimeo.com) will be added.
+
+= Does the Lazy Load for Videos plugin work when there is more than one video on the same page? =
+Yes. The plugin goes on single posts and pages as well as on archive pages with several posts and videos.
 
 = Should I use the Lazy Load for Videos plugin? =
 The very short answer: Yes!
@@ -65,12 +62,12 @@ The very short answer: Yes!
 = How can I calculate my Google PageSpeed Score? =
 PageSpeed Insights is a service by Google to help you optimize your site's performance. You can analyse your site using a browser extension or online, more information: https://developers.google.com/speed/pagespeed/
 
-= Does the Lazy Load for Videos plugin work when there is more than one video on the same page? =
-Yes. The plugin goes on single posts and pages as well as on archive pages with several posts and videos.
-
 = How to embed videos in WordPress? =
 Easily post the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
 
+= Known bugs - this plugin may not work correctly when one of the following plugins is actived… =
+* "YouTube" (http://wordpress.org/extend/plugins/youtube-embed-plus/)
+* [???]
 
 == Changelog ==
 
