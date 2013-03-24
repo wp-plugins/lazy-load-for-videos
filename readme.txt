@@ -67,17 +67,25 @@ PageSpeed Insights is a service by Google to help you optimize your site's perfo
 = How to embed videos in WordPress? =
 Easily post the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
 
-= Known bugs - this plugin may not work correctly when one of the following plugins is actived… =
+= Known bugs - this plugin may not work correctly when one of the following plugins is activated... =
 * "YouTube" (http://wordpress.org/extend/plugins/youtube-embed-plus/)
 * [???]
 
+
 == Changelog ==
+
+= 1.2 =
+* Added jQuery.noConflict to avoid some bugs (See: http://api.jquery.com/jQuery.noConflict/)
+* This plugin now uses jQuery that comes with WordPress
 
 = 1.1 =
 * Plugin goes public.
 
 
 == Upgrade Notice ==
+
+= 1.2 =
+* Plugin should now work on many more sites correctly.
 
 = 1.1 =
 * Plugin goes public.
