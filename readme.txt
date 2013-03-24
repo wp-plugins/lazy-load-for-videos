@@ -75,7 +75,7 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 == Changelog ==
 
 = 1.2 =
-* Added jQuery.noConflict to avoid some bugs (See: http://api.jquery.com/jQuery.noConflict/)
+* Added jQuery.noConflict to avoid some bugs (See: http://api.jquery.com/jQuery.noConflict)
 * This plugin now uses jQuery that comes with WordPress
 
 = 1.1 =
