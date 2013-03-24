@@ -61,7 +61,7 @@
 	        $llv(this).prepend('<div style="height:'+(parseInt($llv(this).css("height"))-4)+'px;width:'+(parseInt($llv(this).css("width"))-4)+'px;" class="lazy-load-youtube-div"></div>');
 	        $llv(this).css("background", "#000 url(http://i2.ytimg.com/vi/"+youid+"/0.jpg) center center no-repeat");
 	        $llv(this).attr("id", youid+index);
-	        $llv(this).attr("href", "http://www.youtube.com/watch?v="+youid+(start ? "#t="+start+"s" : ""));
+	        $llv(this).attr("href", "http://www.youtube.com/watch?v="+youid+(start ? "#t="+start+"s" : "")); /* Add for a white player design: &theme=light */
 	        var emu = 'http://www.youtube.com/embed/'+embedparms;
 	        emu += ((emu.indexOf("?")==-1) ? "?" : "&") + "autoplay=1";
 	        var videoFrame = '<iframe width="'+parseInt($llv(this).css("width"))+'" height="'+parseInt($llv(this).css("height"))+'" style="vertical-align:top;" src="'+emu+'" frameborder="0" allowfullscreen></iframe>';

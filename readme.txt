@@ -18,6 +18,7 @@ By loading the videos only when the user clicks on the preview image, no unneces
 Future features:
 * Choose between several "Play" buttons
 * Upload your own "Play" button
+* Choose between several colours for your player
 * (Optional) video preview image for feeds
 * Support for videos from vimeo.com (and other providers)
 * What you suggest
@@ -67,8 +68,12 @@ PageSpeed Insights is a service by Google to help you optimize your site's perfo
 = How to embed videos in WordPress? =
 Easily post the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
 
+= Solved: The plugin isn't working with Jetpack... =
+"Jetpack" by WordPress.com offers some useful extensions. Only one of them makes Lazy Load for Videos break – the "Shortcode Embeds" extension. So simply disable the extension. (In order to see a "Deactivate" button for "Shortcode Embeds" on the Jetpack's extension overview, you must click on "Learn More".)
+
 = Known bugs - this plugin may not work correctly when one of the following plugins is activated... =
 * "YouTube" (http://wordpress.org/extend/plugins/youtube-embed-plus/)
+* "Shortcode Embeds" extension within Jetpack, see answer above (http://jetpack.me/support/shortcode-embeds/)
 * [???]
 
 
