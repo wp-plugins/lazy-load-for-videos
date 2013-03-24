@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: Lazy Load for Videos
- * Plugin URI: http://kevinw.de/lazyloadvideos.php
+ * Plugin URI: http://wordpress.org/extend/plugins/lazy-load-for-videos/
  * Description: The Lazy Load Videos plugin speeds up your site by replacing embedded Youtube videos with a clickable preview image. Visitors simply click on the image to play the video.
  * Author: Kevin Weber
  * Version: 1.2
