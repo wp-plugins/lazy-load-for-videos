@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
-Tags: admin
+Tags: youtube, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
 Tested up to: 3.5.1
 Stable tag: trunk
