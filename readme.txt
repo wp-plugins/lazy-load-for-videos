@@ -13,7 +13,7 @@ Speed up your site by replacing embedded Youtube videos with a clickable preview
 == Description ==
 
 This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube videos with a clickable preview image.
-By loading the videos only when the user clicks on the preview image, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this is very helpful.
+By loading the videos only when the user clicks on the preview image – using jQuery –, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this will make your visitors happy.
 
 Future features:
 * Choose between several "Play" buttons
