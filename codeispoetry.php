@@ -4,7 +4,7 @@
  * Plugin URI: http://kevinw.de/lazyloadvideos.php
  * Description: The Lazy Load Videos plugin speeds up your site by replacing embedded Youtube videos with a clickable preview image. Visitors simply click on the image to play the video.
  * Author: Kevin Weber
- * Version: 1.2
+ * Version: 1.2.1
  * Author URI: http://kevinw.de/
  * License: GPL2+
  * Text Domain: lazy-load-videos
@@ -36,37 +36,49 @@
 	    <script type='text/javascript'>
 	    var $llv = jQuery.noConflict();
 	    $llv(document).ready(function() {
-	      $llv("a.lazy-load-youtube").each(function(index) {
-	        var embedparms = $llv(this).attr("href").split("/embed/")[1];
-	        if(!embedparms) embedparms = $llv(this).attr("href").split("://youtu.be/")[1];
-	        if(!embedparms) embedparms = $llv(this).attr("href").split("?v=")[1].replace(/\&/,'?');
-	        var youid = embedparms.split("?")[0].split("#")[0];
-	        var start = embedparms.match(/[#&]t=(\d+)s/);
-	        if(start) start = start[1];
-	        else {
-	          start = embedparms.match(/[#&]t=(\d+)m(\d+)s/);
-	          if(start) start = parseInt(start[1])*60+parseInt(start[2]);
-	          else {
-	            start = embedparms.match(/[?&]start=(\d+)/);
-	            if(start) start = start[1];
-	          }
-	        }
-	        embedparms = embedparms.split("#")[0];
-	        if(start && embedparms.indexOf("start=") == -1)
-	          embedparms += ((embedparms.indexOf("?")==-1) ? "?" : "&") + "start="+start;
-	        if(embedparms.indexOf("showinfo=0") != -1)
-	          $llv(this).html('');
-	        else
-	          $llv(this).html('<div class="lazy-load-youtube-info">' + $llv(this).html() + '</div>');
-	        $llv(this).prepend('<div style="height:'+(parseInt($llv(this).css("height"))-4)+'px;width:'+(parseInt($llv(this).css("width"))-4)+'px;" class="lazy-load-youtube-div"></div>');
-	        $llv(this).css("background", "#000 url(http://i2.ytimg.com/vi/"+youid+"/0.jpg) center center no-repeat");
-	        $llv(this).attr("id", youid+index);
-	        $llv(this).attr("href", "http://www.youtube.com/watch?v="+youid+(start ? "#t="+start+"s" : "")); /* Add for a white player design: &theme=light */
-	        var emu = 'http://www.youtube.com/embed/'+embedparms;
-	        emu += ((emu.indexOf("?")==-1) ? "?" : "&") + "autoplay=1";
-	        var videoFrame = '<iframe width="'+parseInt($llv(this).css("width"))+'" height="'+parseInt($llv(this).css("height"))+'" style="vertical-align:top;" src="'+emu+'" frameborder="0" allowfullscreen></iframe>';
-	        $llv(this).attr("onclick", "$llv('#"+youid+index+"').replaceWith('"+videoFrame+"');return false;");
-	      });
+
+			function doload() {
+
+		      $llv("a.lazy-load-youtube").each(function(index) {
+		        var embedparms = $llv(this).attr("href").split("/embed/")[1];
+		        if(!embedparms) embedparms = $llv(this).attr("href").split("://youtu.be/")[1];
+		        if(!embedparms) embedparms = $llv(this).attr("href").split("?v=")[1].replace(/\&/,'?');
+		        var youid = embedparms.split("?")[0].split("#")[0];
+		        var start = embedparms.match(/[#&]t=(\d+)s/);
+		        if(start) start = start[1];
+		        else {
+		          start = embedparms.match(/[#&]t=(\d+)m(\d+)s/);
+		          if(start) start = parseInt(start[1])*60+parseInt(start[2]);
+		          else {
+		            start = embedparms.match(/[?&]start=(\d+)/);
+		            if(start) start = start[1];
+		          }
+		        }
+		        embedparms = embedparms.split("#")[0];
+		        if(start && embedparms.indexOf("start=") == -1)
+		          embedparms += ((embedparms.indexOf("?")==-1) ? "?" : "&") + "start="+start;
+		        if(embedparms.indexOf("showinfo=0") != -1)
+		          $llv(this).html('');
+		        else
+		          $llv(this).html('<div class="lazy-load-youtube-info">' + $llv(this).html() + '</div>');
+		        $llv(this).prepend('<div style="height:'+(parseInt($llv(this).css("height"))-4)+'px;width:'+(parseInt($llv(this).css("width"))-4)+'px;" class="lazy-load-youtube-div"></div>');
+		        $llv(this).css("background", "#000 url(http://i2.ytimg.com/vi/"+youid+"/0.jpg) center center no-repeat");
+		        $llv(this).attr("id", youid+index);
+		        $llv(this).attr("href", "http://www.youtube.com/watch?v="+youid+(start ? "#t="+start+"s" : ""));
+		        var emu = 'http://www.youtube.com/embed/'+embedparms;
+		        emu += ((emu.indexOf("?")==-1) ? "?" : "&") + "autoplay=1";
+		        var videoFrame = '<iframe width="'+parseInt($llv(this).css("width"))+'" height="'+parseInt($llv(this).css("height"))+'" style="vertical-align:top;" src="'+emu+'" frameborder="0" allowfullscreen></iframe>';
+		        $llv(this).attr("onclick", "$llv('#"+youid+index+"').replaceWith('"+videoFrame+"');return false;");
+		      });
+
+			}
+
+			$llv(document).ready(doload());
+
+			$llv(document).ajaxStop(function(){
+				doload();
+			});
+
 	    })
 	    </script>
 	<?php }    
