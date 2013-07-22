@@ -4,12 +4,11 @@
  * Plugin URI: http://kevinw.de/lazyloadvideos.php
  * Description: The Lazy Load Videos plugin speeds up your site by replacing embedded Youtube videos with a clickable preview image. Visitors simply click on the image to play the video.
  * Author: Kevin Weber
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author URI: http://kevinw.de/
  * License: GPL2+
  * Text Domain: lazy-load-videos
 */
-
 
 /***** Part 1: Replace embedded Youtube videos with a special piece of code (required for Part 2) */
 /* Thanks to Otto's comment on StackExchange (See http://wordpress.stackexchange.com/a/19533) */
@@ -42,7 +41,7 @@
 		      $llv("a.lazy-load-youtube").each(function(index) {
 		        var embedparms = $llv(this).attr("href").split("/embed/")[1];
 		        if(!embedparms) embedparms = $llv(this).attr("href").split("://youtu.be/")[1];
-		        if(!embedparms) embedparms = $llv(this).attr("href").split("?v=")[1].replace(/\&/,'?');
+		        if(!embedparms) embedparms = $llv(this).attr("href").split("v=")[1].replace(/\&/,'?');
 		        var youid = embedparms.split("?")[0].split("#")[0];
 		        var start = embedparms.match(/[#&]t=(\d+)s/);
 		        if(start) start = start[1];
@@ -91,7 +90,6 @@
 		wp_enqueue_style( 'lazy-load-style' );
 	}
 	add_action( 'wp_enqueue_scripts', 'lazyload_youtube_style' );
-
 
 /***** Plugin by Kevin Weber || kevinw.de *****/
 ?>
