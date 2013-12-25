@@ -1,18 +1,18 @@
 === Plugin Name ===
 Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
-Tags: youtube, performance, admin, plugin, content, video, page, jquery, mobile
+Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
-Tested up to: 3.5.1
+Tested up to: 3.8
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Speed up your site by replacing embedded Youtube videos with a clickable preview image. Visitors simply click on the image to play the video.
+Speed up your site by replacing embedded Youtube and Vimeo videos with a clickable preview image. Visitors simply click on the image to play the video.
 
 == Description ==
 
-This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube videos with a clickable preview image.
+This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube and Vimeo videos with a clickable preview image.
 By loading the videos only when the user clicks on the preview image – using jQuery –, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this will make your visitors happy.
 
 Future features:
@@ -20,7 +20,6 @@ Future features:
 * Upload your own "Play" button
 * Choose between several colours for your player
 * (Optional) video preview image for feeds
-* Support for videos from vimeo.com (and other providers)
 * What you suggest
 
 
@@ -30,7 +29,7 @@ Easily upload Lazy Load for Videos into you plugin directory (/wp-content/plugin
 
 You may have to clean the website's and browser's cache.
 
-If you don't see a preview image instead of the Youtube video, open the article editor and update/save the article again. This should help.
+If you don't see a preview image instead of the Youtube video, open the post editor and update/save the post again. This should help.
 
 
 == Frequently Asked Questions ==
@@ -41,13 +40,13 @@ Search for keywords using "STRG + F" keyboard shortcut (Mac: "CMD + F").
 For example, on http://kevinw.de/greenbird/.
 
 = Which video platforms are supported? =
-Videos from the biggest video platform, Youtube (http://youtube.com) are supported. In future versions support for Vimeo (http://vimeo.com) will be added.
+Videos from the biggest video platform, Youtube (http://youtube.com), and Vimeo (http://vimeo.com) are supported.
 
 = Does the Lazy Load for Videos plugin work when there is more than one video on the same page? =
-Yes. The plugin goes on single posts and pages as well as on archive pages with several posts and videos.
+Yes. The plugin works on single posts and pages as well as on archive pages with several posts and videos.
 
 = Should I use the Lazy Load for Videos plugin? =
-The very short answer: Yes!
+Yes!
 
 = Why? =
 * If you want to speed your site up, this plugin is for you. Especially on sites with many embedded videos this plugin is helpful. There are multiple reasons why you should make your site faster, see next question.
@@ -60,7 +59,7 @@ The very short answer: Yes!
 * Search engines, especially Google, love speedy sites! So you will be higher ranked in search results.
 * Consequently, you get more visitors.
 * Fast sites lead to higher visitor engagement and returning visitors.
-* Moreover, faster sites increase conversations.
+* Moreover, faster sites increase conversions.
 
 = How can I calculate my Google PageSpeed Score? =
 PageSpeed Insights is a service by Google to help you optimize your site's performance. You can analyse your site using a browser extension or online, more information: https://developers.google.com/speed/pagespeed/
@@ -78,6 +77,11 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 
 == Changelog ==
+
+= 1.3 =
+* New feature: Support for Vimeo videos!!
+* New options panel for admins (now you can deactivate Lazy Load for Youtube/Vimeo in backend)
+* SEO: The preview image's title attribute contains video's title
 
 = 1.2.1 =
 * Bugfix: 'Infinite Scroll' plugins are compatible with this plugin now
