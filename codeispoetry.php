@@ -4,7 +4,7 @@
  * Plugin URI: http://kevinw.de/lazyloadvideos.php
  * Description: The Lazy Load for Videos plugin speeds up your site by replacing embedded Youtube and Vimeo videos with a clickable preview image. Visitors simply click on the image to play the video.
  * Author: Kevin Weber
- * Version: 1.3
+ * Version: 1.3.0.1
  * Author URI: http://kevinw.de/
  * License: GPL2+
  * Text Domain: lazy-load-videos
@@ -198,14 +198,14 @@ http://vimeo.com/48851874/
 	        </tr>
 	    --> 
 	        <tr valign="top">
-	        <th scope="row">Check to NOT use Lazy Load for Youtube</th>
+	        <th scope="row">NOT use Lazy Load for Youtube?</th>
 	        <td>
 				<input name="lly_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt' ) ); ?> /> <span>If checked, Lazy Load will not be used for <b>Youtube</b> videos.</span>
 	        </td>
 	        </tr>
 	        
 	        <tr valign="top">
-	        <th scope="row">Check to NOT use Lazy Load for Vimeo</th>
+	        <th scope="row">NOT use Lazy Load for Vimeo?</th>
 	        <td>
 				<input name="llv_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt' ) ); ?> /> <span>If checked, Lazy Load will not be used for <b>Vimeo</b> videos.</span>
 	        </td>
