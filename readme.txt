@@ -3,7 +3,7 @@ Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
-Tested up to: 3.8
+Tested up to: 3.9
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -15,10 +15,13 @@ Speed up your site by replacing embedded Youtube and Vimeo videos with a clickab
 This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube and Vimeo videos with a clickable preview image.
 By loading the videos only when the user clicks on the preview image – using jQuery –, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this will make your visitors happy.
 
-Future features:
+= New features: =
+* Display video titles on preview images
+
+= Future features: =
 * Choose between several "Play" buttons
-* Upload your own "Play" button
 * Choose between several colours for your player
+* Upload your own "Play" button
 * (Optional) video preview image for feeds
 * What you suggest
 
@@ -77,6 +80,10 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 
 == Changelog ==
+
+= 1.4 =
+* New feature: Display video titles on preview images (for Youtube and Vimeo)
+* New feature: Admins can add Custom CSS via options panel
 
 = 1.3 =
 * New feature: Support for Vimeo videos!!
