@@ -76,6 +76,12 @@ class LAZYLOAD_Admin {
 			// Youtube
 			'lly_opt',
 			'lly_opt_title',
+			'lly_opt_support_for_widgets',
+			'lly_opt_player_colour',
+			'lly_opt_player_colour_progress',
+			'lly_opt_player_relations',
+			'lly_opt_player_controls',
+			'll_opt_thumbnail_size',
 
 			// Vimeo
 			'llv_opt',
@@ -93,12 +99,12 @@ class LAZYLOAD_Admin {
 	function lazyload_settings_page()	{ ?>
 
 		<div id="tabs" class="ui-tabs">
-			<h2>Lazy Load for Videos</h2>
+			<h2>Lazy Load for Videos <span class="subtitle">by <a href="http://kevinw.de/ll" target="_blank" title="Website by Kevin Weber">Kevin Weber</a> (Version <?php echo LL_VERSION; ?>)</span></h2>
 
 			<ul class="ui-tabs-nav">
 		        <li><a href="#tabs-1">Youtube</a></li>
 		    	<li><a href="#tabs-2">Vimeo</a></li>
-		        <li><a href="#tabs-3">Other</a></li>
+		        <li><a href="#tabs-3">Styling/Other</a></li>
 		    </ul>
 			
 			<form method="post" action="options.php">
@@ -120,12 +126,48 @@ class LAZYLOAD_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-						        <th scope="row"><label>Display Youtube title <span class="newred">New!</span></label></th>
+						        <th scope="row"><label>Display Youtube title</label></th>
 						        <td>
 									<input name="lly_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_title' ) ); ?> /> <label>If checked, the Youtube video title will be displayed on preview image.</label>
 						        </td>
 					        </tr>
-					        <p class="notice"><span style="color:#f60;">Important:</span> Changes will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
+					        <tr valign="top">
+					        	<th scope="row"><label>Player colour <span class="newred">New!</span></label></th>
+						        <td>
+									<select class="select" typle="select" name="lly_opt_player_colour">
+										<option value="dark"<?php if (get_option('lly_opt_player_colour') === 'dark') { echo ' selected="selected"'; } ?>>Dark (default)</option>
+										<option value="light"<?php if (get_option('lly_opt_player_colour') === 'light') { echo ' selected="selected"'; } ?>>Light</option>
+									</select>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Colour of progress bar <span class="newred">New!</span></label></th>
+						        <td>
+									<select class="select" typle="select" name="lly_opt_player_colour_progress">
+										<option value="red"<?php if (get_option('lly_opt_player_colour_progress') === 'red') { echo ' selected="selected"'; } ?>>Red (default)</option>
+										<option value="white"<?php if (get_option('lly_opt_player_colour_progress') === 'white') { echo ' selected="selected"'; } ?>>White</option>
+									</select>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Don't display related videos <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="lly_opt_player_relations" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_relations' ) ); ?> /> <label>If checked, related videos at the end of your videos will not be displayed.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Don't display player controls <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="lly_opt_player_controls" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_controls' ) ); ?> /> <label>If checked, Youtube player controls will not be displayed.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+						        <th scope="row"><label>Support for widgets <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="lly_opt_support_for_widgets" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_support_for_widgets' ) ); ?> /> <label>If checked, you can paste a Youtube URL into a text widget and it will be lazy loaded.</label>
+						        </td>
+					        </tr>
+					        <p class="notice"><span style="color:#f60;">Important:</span> Enabling/disabling Lazy Load for Vimeo will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
 			        	</tbody>
 		        	</table>
 		        </div>
@@ -144,12 +186,12 @@ class LAZYLOAD_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-						        <th scope="row"><label>Display Vimeo title <span class="newred">New!</span></label></th>
+						        <th scope="row"><label>Display Vimeo title</label></th>
 						        <td>
 									<input name="llv_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt_title' ) ); ?> /> <label>If checked, the Vimeo video title will be displayed on preview image.</label>
 						        </td>
 					        </tr>
-					        <p class="notice"><span style="color:#f60;">Important:</span> Changes will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
+					        <p class="notice"><span style="color:#f60;">Important:</span> Enabling/disabling Lazy Load for Youtube will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
 			        	</tbody>
 		        	</table>
 		        </div>
@@ -157,10 +199,19 @@ class LAZYLOAD_Admin {
 
 				<div id="tabs-3">
 
-					<h3>Other</h3>
+					<h3>Styling/Other</h3>
 
 					<table class="form-table">
 						<tbody>
+					        <tr valign="top">
+					        	<th scope="row"><label>Thumbnail Size <span class="newred">New!</span></label></th>
+						        <td>
+									<select class="select" typle="select" name="ll_opt_thumbnail_size">
+										<option value="standard"<?php if (get_option('ll_opt_thumbnail_size') === 'standard') { echo ' selected="selected"'; } ?>>Standard</option>
+										<option value="cover"<?php if (get_option('ll_opt_thumbnail_size') === 'cover') { echo ' selected="selected"'; } ?>>Cover</option>
+									</select>
+						        </td>
+					        </tr>
 					        <tr valign="top">
 					        	<th scope="row"><label>Custom CSS</label></th>
 					        	<td>
@@ -175,6 +226,8 @@ class LAZYLOAD_Admin {
 
 			    <?php submit_button(); ?>
 			</form>
+
+			<?php require_once( 'inc/signup.php' ); ?>
 
 		    <table class="form-table">
 		        <tr valign="top">

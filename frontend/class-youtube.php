@@ -14,6 +14,21 @@ class LAZYLOAD_youtube {
 	 */
 	function enable_lazyload_js() {
 		wp_enqueue_script( 'lazyload_youtube_js', plugins_url( '../js/min/lazyload-youtube-ck.js' , __FILE__ ) );
+
+		?>
+		<script>
+			var $ind = jQuery.noConflict();
+
+			$ind(document).ready(function() {
+				setOptions({
+					theme: '<?php if (get_option("lly_opt_player_colour") == "") { echo "dark"; } else { echo get_option("lly_opt_player_colour"); } ?>',
+					colour: '<?php if (get_option("lly_opt_player_colour_progress") == "") { echo "red"; } else { echo get_option("lly_opt_player_colour_progress"); } ?>',
+					relations: <?php if (get_option("lly_opt_player_relations") == "1") { echo "false"; } else { echo "true"; } ?>,
+					controls: <?php if (get_option("lly_opt_player_controls") == "1") { echo "false"; } else { echo "true"; } ?>,
+				});
+			});
+		</script>
+		<?php
 	}
 
 }
