@@ -6,7 +6,9 @@
 
 register_activation_hook( LL_FILE, 'lazyload_plugin_activation' );
 register_deactivation_hook( LL_FILE, 'lazyload_plugin_deactivation' );
+
 function lazyload_plugin_activation() {
+	lazyload_update_posts_with_embed();
 
 	$signup = '<div id="mc_embed_signup">
 			<form action="'.LL_NEWS_ACTION_URL.'" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -27,16 +29,22 @@ function lazyload_plugin_activation() {
 
 	$notices = get_option( 'lazyload_deferred_admin_notices', array() );
 	$notices[] = $signup . '<br>Edit your plugin settings: <strong>
-					<a href="options-general.php?page=lazyload.php">Lazy Load for Videos</a>
+					<a href="options-general.php?page='. LL_ADMIN_URL .'">Lazy Load for Videos</a>
 					</strong>';
 				;
 	update_option( 'lazyload_deferred_admin_notices', $notices );
 }
 
 function lazyload_plugin_deactivation() {
-	delete_option( 'lazyload_deferred_admin_notices' ); 
+	lazyload_update_posts_with_embed();
+	delete_option( 'lazyload_deferred_admin_notices' );
 }
 
+function lazyload_update_posts_with_embed() {
+	require_once( LL_PATH . 'admin/inc/class-update-posts.php' );
+	$lazyload_admin = new lazyload_Update_Posts();
+	$lazyload_admin->lazyload_update_posts_with_oembed();
+}
 
 class lazyload_Register {
 

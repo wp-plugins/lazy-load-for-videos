@@ -3,7 +3,6 @@
  * Create options panel (http://codex.wordpress.org/Creating_Options_Pages)
  * @package Admin
  */
-
 class LAZYLOAD_Admin {
 
 	function __construct() {
@@ -14,11 +13,25 @@ class LAZYLOAD_Admin {
 	}
 
 	function admin_init() {
-		if ( isset( $_GET['page'] ) && ( $_GET['page'] == 'lazyload.php') ) {
+		if ( isset( $_GET['page'] ) && ( $_GET['page'] == LL_ADMIN_URL ) ) {
+			if ( isset( $_GET['update_posts'] ) && $_GET['update_posts'] == 'with_oembed' ) {
+				lazyload_update_posts_with_embed();
+			}
 			$this->lazyload_admin_css();
 			$this->lazyload_admin_js();
 		}
+		$plugin = plugin_basename( LL_FILE ); 
+		add_filter("plugin_action_links_$plugin", array( $this, 'lazyload_settings_link' ) );
 		$this->register_lazyload_settings();
+	}
+
+	/**
+	 * Add settings link on plugin page
+	 */
+	function lazyload_settings_link($links) { 
+	  $settings_link = '<a href="options-general.php?page='. LL_ADMIN_URL .'">Settings</a>'; 
+	  array_unshift($links, $settings_link); 
+	  return $links; 
 	}
 
 	/**
@@ -39,10 +52,13 @@ class LAZYLOAD_Admin {
 	    		$titletxt = '&ensp;';
 	    	}
 
-       		$preview_url = '<a class="lazy-load-youtube preview-youtube" href="' . $url . '" title="Play Video &quot;' . $data->title . '&quot;">'
+	    	$a_class = 'lazy-load-youtube preview-youtube';
+	    	$a_class = apply_filters( 'lazyload_preview_url_a_class_youtube', $a_class );
+
+       		$preview_url = '<a class="' . $a_class . '" href="' . $url . '" title="Play Video &quot;' . $data->title . '&quot;">'
 	       		. $titletxt .
 	       		'</a>';
-       		return $preview_url;
+       		return apply_filters( 'lazyload_replace_video_preview_url_youtube', $preview_url );
 	    }
 
 	    // Vimeo support
@@ -58,17 +74,20 @@ class LAZYLOAD_Admin {
 			};
 			$vimeoid = end($spliturl);
 
-			$preview_url = '<div id="' . $vimeoid . '" class="lazy-load-vimeo preview-vimeo" title="Play Video &quot;' . $data->title . '&quot;">
+	    	$a_class = 'lazy-load-vimeo preview-vimeo';
+	    	$a_class = apply_filters( 'lazyload_preview_url_a_class_youtube', $a_class );
+
+			$preview_url = '<div id="' . $vimeoid . '" class="' . $a_class . '" title="Play Video &quot;' . $data->title . '&quot;">
 					
 				</div>';
-       		return $preview_url;
+			return apply_filters( 'lazyload_replace_video_preview_url_vimeo', $preview_url );
 	    }
 
 	    else return $return;
 	}
 
 	function lazyload_create_menu() {
-		add_options_page('Lazy Load for Videos', 'Lazy Load for Videos', 'manage_options', 'lazyload.php', array( $this, 'lazyload_settings_page' ));
+		add_options_page('Lazy Load for Videos', 'Lazy Load for Videos', 'manage_options', LL_ADMIN_URL, array( $this, 'lazyload_settings_page' ));
 	}
 
 	function register_lazyload_settings() {
@@ -105,6 +124,7 @@ class LAZYLOAD_Admin {
 		        <li><a href="#tabs-1">Youtube</a></li>
 		    	<li><a href="#tabs-2">Vimeo</a></li>
 		        <li><a href="#tabs-3">Styling/Other</a></li>
+		        <?php do_action( 'lazyload_settings_page_tabs_link_after' ); ?>
 		    </ul>
 			
 			<form method="post" action="options.php">
@@ -120,13 +140,13 @@ class LAZYLOAD_Admin {
 					<table class="form-table">
 						<tbody>
 					        <tr valign="top">
-						        <th scope="row"><label>Do NOT use Lazy Load for Youtube</label></th>
+						        <th scope="row"><label><u>Do NOT use Lazy Load for Youtube</u></label></th>
 						        <td>
 									<input name="lly_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Youtube</b> videos.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
-						        <th scope="row"><label>Display Youtube title</label></th>
+						        <th scope="row"><label><u>Display Youtube title</u></label></th>
 						        <td>
 									<input name="lly_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_title' ) ); ?> /> <label>If checked, the Youtube video title will be displayed on preview image.</label>
 						        </td>
@@ -164,14 +184,13 @@ class LAZYLOAD_Admin {
 					        <tr valign="top">
 						        <th scope="row"><label>Support for widgets <span class="newred">New!</span></label></th>
 						        <td>
-									<input name="lly_opt_support_for_widgets" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_support_for_widgets' ) ); ?> /> <label>If checked, you can paste a Youtube URL into a text widget and it will be lazy loaded.</label>
+									<input name="lly_opt_support_for_widgets" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_support_for_widgets' ) ); ?> /> <label>Only check this box if you actually use this feature (for reason of performance)! If checked, you can paste a Youtube URL into a text widget and it will be lazy loaded.</label>
 						        </td>
 					        </tr>
-					        <p class="notice"><span style="color:#f60;">Important:</span> Enabling/disabling Lazy Load for Vimeo will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
+					        <?php echo LL_NOTICE; ?>
 			        	</tbody>
 		        	</table>
 		        </div>
-
 
 				<div id="tabs-2">
 
@@ -180,18 +199,18 @@ class LAZYLOAD_Admin {
 					<table class="form-table">
 						<tbody>
 					        <tr valign="top">
-						        <th scope="row"><label>Do NOT use Lazy Load for Vimeo</label></th>
+						        <th scope="row"><label><u>Do NOT use Lazy Load for Vimeo</u></label></th>
 						        <td>
 									<input name="llv_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Vimeo</b> videos.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
-						        <th scope="row"><label>Display Vimeo title</label></th>
+						        <th scope="row"><label><u>Display Vimeo title</u></label></th>
 						        <td>
 									<input name="llv_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt_title' ) ); ?> /> <label>If checked, the Vimeo video title will be displayed on preview image.</label>
 						        </td>
 					        </tr>
-					        <p class="notice"><span style="color:#f60;">Important:</span> Enabling/disabling Lazy Load for Youtube will only affect new posts and posts you update afterwards. (Open the post editor and update/save your post again.)</p>
+					       	<?php echo LL_NOTICE; ?>
 			        	</tbody>
 		        	</table>
 		        </div>
@@ -223,6 +242,7 @@ class LAZYLOAD_Admin {
 
 			    </div>
 
+				<?php do_action( 'lazyload_settings_page_tabs_after' ); ?>
 
 			    <?php submit_button(); ?>
 			</form>
@@ -237,10 +257,10 @@ class LAZYLOAD_Admin {
 			        	I'm the developer of this plugin. I hope you enjoy it!</p>
 			        </td>
 			        <td>
-						<p><b>It's free!</b> Support me with <a href="http://kevinw.de/donate/LazyLoadVideos/" title="Pay him something to eat" target="_blank">a delicious lunch</a> and give this plugin a 5 star rating <a href="http://wordpress.org/support/view/plugin-reviews/lazy-load-for-videos?filter=5" title="Vote for Lazy Load for Videos" target="_blank">on WordPress.org</a>.</p>
+						<p>Another great plugin: <a href="http://kevinw.de/ll-ind" title="Inline Comments" target="_blank">Inline Comments</a>.</p>
 			        </td>
 			        <td>
-						<p>Another great plugin: <a href="http://kevinw.de/ll-ind" title="Inline Comments" target="_blank">Inline Comments</a>.</p>
+						<p><b>It's free!</b> Support me with <a href="http://kevinw.de/donate/LazyLoadVideos/" title="Pay him something to eat" target="_blank">a delicious lunch</a> and give this plugin a 5 star rating <a href="http://wordpress.org/support/view/plugin-reviews/lazy-load-for-videos?filter=5" title="Vote for Lazy Load for Videos" target="_blank">on WordPress.org</a>.</p>
 			        </td>
 		        </tr>
 		    </table>

@@ -4,7 +4,7 @@ Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 1.5
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,14 +15,16 @@ Speed up your site by replacing embedded Youtube and Vimeo videos with a clickab
 This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube and Vimeo videos with a clickable preview image.
 By loading the videos only when the user clicks on the preview image – using jQuery –, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this will make your visitors happy.
 
-= New features: =
+Demo on the developer’s website: [kevinw.de/lazyloadvideos](http://kevinw.de/lazyloadvideos)
+
+= Some additional features: =
 * Display video titles on preview images
 * Add Custom CSS via plugin’s options panel
-* Support for Widgets (Youtube only)
+* Hide controls from Youtube player
+* Support for videos in text widget (Youtube only)
 * Choose thumbnail size (standard or cover)
 * Choose between two colours for Youtube player (dark or light)
 * Choose between two colours for Youtube player’s video progress bar to highlight the amount of the video that the viewer has already seen (red or white)
-* Hide controls from Youtube player
 * Don’t display related videos at the end of your videos
 
 = Future features: =
@@ -83,10 +85,16 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 = Known bugs - this plugin may not work correctly when one of the following plugins is activated... =
 * "YouTube" (http://wordpress.org/extend/plugins/youtube-embed-plus/)
 * "Shortcode Embeds" extension within Jetpack, see answer above (http://jetpack.me/support/shortcode-embeds/)
+* "BuddyPress" (http://wordpress.org/plugins/buddypress/)
+* Thumbnails from Vimeo videos in "Privacy Mode" are not supported because Vimeo’s API doesn’t deliver thumbnails for those videos.
 * [???]
 
 
 == Changelog ==
+
+= 1.5.2 =
+* Improvement: When user activates or deactivates this plugin, all posts that have an oembedded medium will be updated once automatically
+* Improvement: Only load CSS/JS files on pages/posts when necessary
 
 = 1.5 =
 * New feature: Choose between two colours for Youtube player (dark or light)
