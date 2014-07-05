@@ -4,7 +4,7 @@ Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
 Tested up to: 3.9.1
-Stable tag: 1.5.2
+Stable tag: 1.5.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,9 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 
 == Changelog ==
+
+= 1.5.2.1 =
+* Fix: Do NOT update all posts when user activates the plugin anymore
 
 = 1.5.2 =
 * New feature: When user activates or deactivates this plugin, all posts that have an oembedded medium will be updated once automatically
