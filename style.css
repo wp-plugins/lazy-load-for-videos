@@ -1,0 +1,20 @@
+a.lazy-load-youtube {
+	background: #333;
+	width: 600px; height: 315px;
+	max-width: 100%;
+	background-size: cover;
+	text-decoration: none;
+	display: inline-block;
+}
+a.lazy-load-youtube:hover {
+	text-decoration: none;
+}
+.lazy-load-youtube-div {
+	max-width: 100%;
+	background: url(images/play-youtube.png) center center no-repeat;
+	position: absolute;
+	opacity: 0.8;
+}
+.lazy-load-youtube-div:hover {
+	opacity: 1;
+}
