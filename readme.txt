@@ -99,7 +99,7 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 = 1.6 =
 * New feature: Choose from three play buttons (CSS-only white, CSS-only black, Youtube button image)
-* New premium feature: Convert videos into a playlist and automatically add your corporate video, product teaser or another video advertisment at the end of every video
+* New premium feature: Convert videos into a playlist and automatically add your corporate video, product teaser or another video advertisement at the end of every video
 * New premium feature: Remove branding
 * New feature: With a colour picker the user can choose a colour of the video controls (Vimeo only)
 * New feature: Support for Youtube and Vimeo URLs in tables created with plugin TablePress
