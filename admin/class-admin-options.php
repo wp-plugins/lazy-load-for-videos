@@ -44,20 +44,11 @@ class LAZYLOAD_Admin {
 	    if ( (! is_feed()) && ($data->provider_name == 'YouTube') 
 				&& (get_option('lly_opt') == false) // test if Lazy Load for Youtube is deactivated
 	    	) {
-	    	// Test: Display Youtube title
-	    	if ( (get_option('lly_opt_title') == true) ) {
-	    		$titletxt = $data->title;
-	    	}
-	    	else {
-	    		$titletxt = '&ensp;';
-	    	}
 
 	    	$a_class = 'lazy-load-youtube preview-youtube';
 	    	$a_class = apply_filters( 'lazyload_preview_url_a_class_youtube', $a_class );
 
-       		$preview_url = '<a class="' . $a_class . '" href="' . $url . '" title="Play Video &quot;' . $data->title . '&quot;">'
-	       		. $titletxt .
-	       		'</a>';
+       		$preview_url = '<a class="' . $a_class . '" href="' . $url . '" video-title="' . $data->title . '" title="Play Video &quot;' . $data->title . '&quot;">&ensp;</a>';
        		return apply_filters( 'lazyload_replace_video_preview_url_youtube', $preview_url );
 	    }
 
@@ -92,6 +83,13 @@ class LAZYLOAD_Admin {
 
 	function register_lazyload_settings() {
 		$arr = array(
+			//General/Styling
+			'll_opt_load_scripts',
+			'll_opt_button_style',
+			'll_opt_thumbnail_size',
+			'll_opt_customcss',
+			'll_opt_support_for_tablepress',
+
 			// Youtube
 			'lly_opt',
 			'lly_opt_title',
@@ -100,19 +98,17 @@ class LAZYLOAD_Admin {
 			'lly_opt_player_colour_progress',
 			'lly_opt_player_relations',
 			'lly_opt_player_controls',
-			'll_opt_thumbnail_size',
 
 			// Vimeo
 			'llv_opt',
 			'llv_opt_title',
-
-			//Other
-			'll_opt_customcss'
+			'llv_opt_player_colour',
 		);
 
 		foreach ( $arr as $i ) {
 			register_setting( 'll-settings-group', $i );
 		}
+		do_action( 'lazyload_register_settings_after' );
 	}
 
 	function lazyload_settings_page()	{ ?>
@@ -121,9 +117,9 @@ class LAZYLOAD_Admin {
 			<h2>Lazy Load for Videos <span class="subtitle">by <a href="http://kevinw.de/ll" target="_blank" title="Website by Kevin Weber">Kevin Weber</a> (Version <?php echo LL_VERSION; ?>)</span></h2>
 
 			<ul class="ui-tabs-nav">
-		        <li><a href="#tabs-1">Youtube</a></li>
-		    	<li><a href="#tabs-2">Vimeo</a></li>
-		        <li><a href="#tabs-3">Styling/Other</a></li>
+		        <li><a href="#tab-general">General/Styling <span class="newred_dot">&bull;</span></a></li>
+		        <li><a href="#tab-youtube">Youtube</a></li>
+		    	<li><a href="#tab-vimeo">Vimeo <span class="newred_dot">&bull;</span></a></li>
 		        <?php do_action( 'lazyload_settings_page_tabs_link_after' ); ?>
 		    </ul>
 			
@@ -133,97 +129,31 @@ class LAZYLOAD_Admin {
 		   		do_settings_sections( 'll-settings-group' );
 		   	?>
 
-				<div id="tabs-1">
 
-					<h3>Lazy Load for Youtube</h3>
+				<div id="tab-general">
+
+					<h3>General/Styling</h3>
 
 					<table class="form-table">
 						<tbody>
 					        <tr valign="top">
-						        <th scope="row"><label><u>Do NOT use Lazy Load for Youtube</u></label></th>
+						        <th scope="row"><label>Only load CSS/JS when needed <span class="newred">New!</span><br><span class="description thin">to improve performance</span></label></th>
 						        <td>
-									<input name="lly_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Youtube</b> videos.</label>
+									<input name="ll_opt_load_scripts" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_load_scripts' ) ); ?> /> <label>It can happen that &ndash; when this option is checked &ndash; videos on pages do not lazy load although they should. It works on most sites. Simply test it on your site.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
-						        <th scope="row"><label><u>Display Youtube title</u></label></th>
+					        	<th scope="row"><label>Play Button <span class="newred">New!</span></label></th>
 						        <td>
-									<input name="lly_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_title' ) ); ?> /> <label>If checked, the Youtube video title will be displayed on preview image.</label>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-					        	<th scope="row"><label>Player colour <span class="newred">New!</span></label></th>
-						        <td>
-									<select class="select" typle="select" name="lly_opt_player_colour">
-										<option value="dark"<?php if (get_option('lly_opt_player_colour') === 'dark') { echo ' selected="selected"'; } ?>>Dark (default)</option>
-										<option value="light"<?php if (get_option('lly_opt_player_colour') === 'light') { echo ' selected="selected"'; } ?>>Light</option>
+									<select class="select" typle="select" name="ll_opt_button_style">
+										<option value="default"<?php if (get_option('ll_opt_button_style') === 'default') { echo ' selected="selected"'; } ?>>White (CSS-only)</option>
+										<option value="css_black"<?php if (get_option('ll_opt_button_style') === 'css_black') { echo ' selected="selected"'; } ?>>Black (CSS-only)</option>
+										<option value="youtube_button_image"<?php if (get_option('ll_opt_button_style') === 'youtube_button_image') { echo ' selected="selected"'; } ?>>Youtube button image</option>
 									</select>
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Colour of progress bar <span class="newred">New!</span></label></th>
-						        <td>
-									<select class="select" typle="select" name="lly_opt_player_colour_progress">
-										<option value="red"<?php if (get_option('lly_opt_player_colour_progress') === 'red') { echo ' selected="selected"'; } ?>>Red (default)</option>
-										<option value="white"<?php if (get_option('lly_opt_player_colour_progress') === 'white') { echo ' selected="selected"'; } ?>>White</option>
-									</select>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-					        	<th scope="row"><label>Don't display related videos <span class="newred">New!</span></label></th>
-						        <td>
-									<input name="lly_opt_player_relations" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_relations' ) ); ?> /> <label>If checked, related videos at the end of your videos will not be displayed.</label>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-					        	<th scope="row"><label>Don't display player controls <span class="newred">New!</span></label></th>
-						        <td>
-									<input name="lly_opt_player_controls" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_controls' ) ); ?> /> <label>If checked, Youtube player controls will not be displayed.</label>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-						        <th scope="row"><label>Support for widgets <span class="newred">New!</span></label></th>
-						        <td>
-									<input name="lly_opt_support_for_widgets" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_support_for_widgets' ) ); ?> /> <label>Only check this box if you actually use this feature (for reason of performance)! If checked, you can paste a Youtube URL into a text widget and it will be lazy loaded.</label>
-						        </td>
-					        </tr>
-					        <?php echo LL_NOTICE; ?>
-			        	</tbody>
-		        	</table>
-		        </div>
-
-				<div id="tabs-2">
-
-					<h3>Lazy Load for Vimeo</h3>
-
-					<table class="form-table">
-						<tbody>
-					        <tr valign="top">
-						        <th scope="row"><label><u>Do NOT use Lazy Load for Vimeo</u></label></th>
-						        <td>
-									<input name="llv_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Vimeo</b> videos.</label>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-						        <th scope="row"><label><u>Display Vimeo title</u></label></th>
-						        <td>
-									<input name="llv_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt_title' ) ); ?> /> <label>If checked, the Vimeo video title will be displayed on preview image.</label>
-						        </td>
-					        </tr>
-					       	<?php echo LL_NOTICE; ?>
-			        	</tbody>
-		        	</table>
-		        </div>
-
-
-				<div id="tabs-3">
-
-					<h3>Styling/Other</h3>
-
-					<table class="form-table">
-						<tbody>
-					        <tr valign="top">
-					        	<th scope="row"><label>Thumbnail Size <span class="newred">New!</span></label></th>
+					        	<th scope="row"><label>Thumbnail Size</label></th>
 						        <td>
 									<select class="select" typle="select" name="ll_opt_thumbnail_size">
 										<option value="standard"<?php if (get_option('ll_opt_thumbnail_size') === 'standard') { echo ' selected="selected"'; } ?>>Standard</option>
@@ -237,10 +167,105 @@ class LAZYLOAD_Admin {
 					        		<textarea rows="14" cols="70" type="text" name="ll_opt_customcss"><?php echo get_option('ll_opt_customcss'); ?></textarea>
 					        	</td>
 					        </tr>
+					        <tr valign="top">
+						        <th scope="row"><label>Support for TablePress <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="ll_opt_support_for_tablepress" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_support_for_tablepress' ) ); ?> /> <label>Only check this box if you actually use this feature (for reason of performance). If checked, you can paste a Youtube or Vimeo URL into tables that are created with TablePress and it will be lazy loaded.</label>
+						        </td>
+					        </tr>
 					    </tbody>
 				    </table>
 
-			    </div>
+				</div>
+
+				<div id="tab-youtube">
+
+					<h3>Lazy Load for Youtube</h3>
+
+					<table class="form-table">
+						<tbody>
+					        <tr valign="top">
+						        <th scope="row"><label><u>Do NOT use Lazy Load for Youtube</u></label></th>
+						        <td>
+									<input name="lly_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Youtube</b> videos.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+						        <th scope="row"><label>Display Youtube title</label></th>
+						        <td>
+									<input name="lly_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_title' ) ); ?> /> <label>If checked, the Youtube video title will be displayed on preview image.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Player colour</label></th>
+						        <td>
+									<select class="select" typle="select" name="lly_opt_player_colour">
+										<option value="dark"<?php if (get_option('lly_opt_player_colour') === 'dark') { echo ' selected="selected"'; } ?>>Dark (default)</option>
+										<option value="light"<?php if (get_option('lly_opt_player_colour') === 'light') { echo ' selected="selected"'; } ?>>Light</option>
+									</select>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Colour of progress bar</label></th>
+						        <td>
+									<select class="select" typle="select" name="lly_opt_player_colour_progress">
+										<option value="red"<?php if (get_option('lly_opt_player_colour_progress') === 'red') { echo ' selected="selected"'; } ?>>Red (default)</option>
+										<option value="white"<?php if (get_option('lly_opt_player_colour_progress') === 'white') { echo ' selected="selected"'; } ?>>White</option>
+									</select>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Hide related videos</label></th>
+						        <td>
+									<input name="lly_opt_player_relations" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_relations' ) ); ?> /> <label>If checked, related videos at the end of your videos will not be displayed.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Hide player controls</label></th>
+						        <td>
+									<input name="lly_opt_player_controls" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_controls' ) ); ?> /> <label>If checked, Youtube player controls will not be displayed.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+						        <th scope="row"><label>Support for widgets</label></th>
+						        <td>
+									<input name="lly_opt_support_for_widgets" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_support_for_widgets' ) ); ?> /> <label>Only check this box if you actually use this feature (for reason of performance)! If checked, you can paste a Youtube URL into a text widget and it will be lazy loaded.</label>
+						        </td>
+					        </tr>
+					        <?php echo LL_NOTICE; ?>
+			        	</tbody>
+		        	</table>
+		        </div>
+
+				<div id="tab-vimeo">
+
+					<h3>Lazy Load for Vimeo</h3>
+
+					<table class="form-table">
+						<tbody>
+					        <tr valign="top">
+						        <th scope="row"><label><u>Do NOT use Lazy Load for Vimeo</u></label></th>
+						        <td>
+									<input name="llv_opt" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt' ) ); ?> /> <label>If checked, Lazy Load will not be used for <b>Vimeo</b> videos.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+						        <th scope="row"><label>Display Vimeo title</label></th>
+						        <td>
+									<input name="llv_opt_title" type="checkbox" value="1" <?php checked( '1', get_option( 'llv_opt_title' ) ); ?> /> <label>If checked, the Vimeo video title will be displayed on preview image.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Colour of the vimeo controls <span class="newred">New!</span></label></th>
+					        	<td>
+					        		<input id="llv_picker_input_player_colour" class="picker-input" type="text" name="llv_opt_player_colour" placeholder="#00adef" value="<?php if (get_option("llv_opt_player_colour") == "") { echo "#00adef"; } else { echo get_option("llv_opt_player_colour"); } ?>" />
+					        		<div id="llv_picker_player_colour" class="picker-style"></div>
+					        	</td>
+					        </tr>
+					       	<?php echo LL_NOTICE; ?>
+			        	</tbody>
+		        	</table>
+		        </div>
 
 				<?php do_action( 'lazyload_settings_page_tabs_after' ); ?>
 
@@ -269,11 +294,12 @@ class LAZYLOAD_Admin {
 	}
 
 	function lazyload_admin_js() {
-	    wp_enqueue_script( 'lazyload_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array('jquery', 'jquery-ui-tabs') );
+	    wp_enqueue_script( 'lazyload_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array('jquery', 'jquery-ui-tabs', 'farbtastic' ) );
 	}
 
 	function lazyload_admin_css() {
 		wp_enqueue_style( 'lazyload_admin_css', plugins_url('../css/min/admin.css', __FILE__) );
+		wp_enqueue_style( 'farbtastic' );	// Required for colour picker
 	}
 
 }
@@ -282,4 +308,3 @@ function initialize_lazyload_admin() {
 	$lazyload_admin = new LAZYLOAD_Admin();
 }
 add_action( 'init', 'initialize_lazyload_admin' );
-?>
