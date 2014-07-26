@@ -1,0 +1,1 @@
+!function(n,o,c){o(document).ready(function(){i()});var i=function(){o("#tabs").tabs(),r()},r=function(){o("#llv_picker_player_colour").farbtastic("#llv_picker_input_player_colour")}}(window.incom=window.incom||{},jQuery);
