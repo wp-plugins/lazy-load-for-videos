@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Lazy Load for Videos ===
 Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
-Tested up to: 3.9.1
-Stable tag: 1.6.1
+Tested up to: 4.0
+Stable tag: 1.6.2
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -97,6 +97,13 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 == Changelog ==
 
+= 1.6.2 =
+* New feature (beta): Apply schema.org markup to videos
+* Fix: The new CSS play buttons caused some errors that have been fixed with this update
+* Fix: Use WordPress' built in function to delete oembed caches. Much better performance! Now, again, do update all posts that have an oembedded medium when user activates the plugin
+* Fix: Actually remove the "i" link when the option to remove it is checked
+* Fix to make the plugin ready for WordPress 4.0 and its new feature to display video previews in editor
+
 = 1.6.1 =
 * Wrapped videos into a <div> container.
 
@@ -150,6 +157,9 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+* Several important fixes. Please upgrade.
 
 = 1.6.1 =
 * Wrapped videos into a <div> container. Now you can change the player size with custom CSS, like so: .container-youtube, .container-vimeo { max-width: 50%; }

@@ -10,11 +10,15 @@ $z-index-base: 2;
 // @mixin vendor-prefix($property, $value) {
 //   -webkit-#{$property}: #{$value};
 //   -moz-#{$property}: #{$value};
-//   -os-#{$property}: #{$value};
+//   -ms-#{$property}: #{$value};
 //   -o-#{$property}: #{$value};
 //   #{$property}: #{$value};
 // }
 //    @include vendor-prefix( border-radius, 50% );
+
+.container-youtube, .container-vimeo {
+	font-size: 0;
+}
 
 .entry-content a.lazy-load-youtube, a.lazy-load-youtube, .lazy-load-vimeo {
 	background: #000;
@@ -29,9 +33,9 @@ $z-index-base: 2;
 	font-size: 14px;
 }
 
-.lazy-load-youtube-div {
+.preview-vimeo {
 	display: table;
-	&:before, &::before {
+	&:after, &::after {
 		content: "\25B6";
 		font-size: 50px;
 		font-family: Arial, sans-serif;
@@ -45,18 +49,19 @@ $z-index-base: 2;
 		vertical-align: middle;
 		text-align: center;
 	}
-	&:hover:before {
+	&:hover:after {
 		opacity: 0.9;
 		text-shadow: 0px 0px 60px rgba(0,0,0,0.5);
 	}
 }
-.lazy-load-vimeo {
+
+.preview-youtube .lazy-load-youtube-div {
 	display: table;
-	&:after, &::after {
-		@extend .lazy-load-youtube-div:before;
+	&:before, &::before {
+		@extend .preview-vimeo:after;
 	}
-	&:hover:after {
-		@extend .lazy-load-youtube-div:hover:before;
+	&:hover:before {
+		@extend .preview-vimeo:hover:after;
 	}
 }
 
@@ -117,4 +122,10 @@ a.lazy-load-youtube:hover, .lazy-load-vimeo:hover {
       color: $white;
       text-decoration: none;
     }
+}
+
+.container-youtube embed, .container-youtube iframe, .container-youtube object, .container-youtube video,
+.container-vimeo embed, .container-vimeo iframe, .container-vimeo object, .container-vimeo video,
+a.lazy-load-youtube, .lazy-load-vimeo {
+	margin-bottom: 5px!important;
 }

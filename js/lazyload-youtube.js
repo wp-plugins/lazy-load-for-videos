@@ -6,8 +6,10 @@
 var $lly = jQuery.noConflict();
 
 // Classes
+var classPreviewYoutube = 'preview-youtube';
+  //var classPreviewYoutubeDot = '.' + classPreviewYoutube;
 var classBranding = 'lazyload-info-icon';
-var classBrandingDot = '.' + classBranding;
+  var classBrandingDot = '.' + classBranding;
 
 
 var $lly_o;
@@ -18,6 +20,7 @@ var setOptionsYoutube = function(options) {
       controls: true,
       relations: true,
       playlist: '',
+      videoseo: false,
     },
     options);
 };
@@ -51,6 +54,8 @@ $lly(document).ready(function() {
           }
         }
       }
+      var lly_url = "//i2.ytimg.com/vi/" + youid + "/0.jpg";
+      var emu = '//www.youtube.com/embed/' + embedparms;
 
       /*
        * Load plugin info
@@ -63,12 +68,14 @@ $lly(document).ready(function() {
        * Create info element
        */
       var createPluginInfo = function() {
-        // source = Video
-        var source = $lly(that);
-        // element = Plugin info element
-        var element = $lly( loadPluginInfo() );
-        // Prepend element to source
-        source.before( element );
+        if ($lly_o.displayBranding !== false) {
+          // source = Video
+          var source = $lly(that);
+          // element = Plugin info element
+          var element = $lly( loadPluginInfo() );
+          // Prepend element to source
+          source.before( element );
+        }
       };
 
       createPluginInfo();
@@ -85,21 +92,46 @@ $lly(document).ready(function() {
         }
       };
 
+      var youtubeUrl = function( id ) {
+        return '//www.youtube.com/watch?v=' + id;
+      };
+
       embedparms = embedparms.split("#")[0];
       if (start && embedparms.indexOf("start=") === -1) {
         embedparms += ((embedparms.indexOf("?") === -1) ? "?" : "&") + "start=" + start;
       }
+
+      var itemprop_name = '';
+      if ($lly_o.videoseo === true ) {
+        itemprop_name = ' itemprop="name"';
+      }
+
       if (embedparms.indexOf("showinfo=0") !== -1) {
         $lly(this).html('');
       } else {
-        $lly(this).html('<div class="lazy-load-youtube-info"><span class="titletext youtube">' + videoTitle() + '</span></div>');
+        $lly(this).html('<div class="lazy-load-youtube-info"><span class="titletext youtube"'+itemprop_name+'>' + videoTitle() + '</span></div>');
       }
 
       $lly(this).prepend('<div style="height:' + (parseInt($lly(this).css("height")) - 4) + 'px;width:' + (parseInt($lly(this).css("width")) - 4) + 'px;" class="lazy-load-youtube-div"></div>');
-      $lly(this).css("background", "#000 url(//i2.ytimg.com/vi/" + youid + "/0.jpg) center center no-repeat");
+      $lly(this).css("background", "#000 url(" + lly_url + ") center center no-repeat");
+
+      if ($lly_o.videoseo === true) {
+        $lly(that).append('<meta itemprop="contentLocation" content="'+ youtubeUrl( youid ) +'" />');
+        $lly(that).append('<meta itemprop="embedUrl" content="'+ emu +'" />');
+        $lly(this).append('<meta itemprop="thumbnail" content="'+ lly_url +'" />');
+ 
+        $lly.getJSON('http://gdata.youtube.com/feeds/api/videos/'+youid+'?v=2&alt=jsonc&callback=?',function( data ){
+            $lly(that).append('<meta itemprop="datePublished" content="'+ data.data.uploaded +'" />');
+            $lly(that).append('<meta itemprop="duration" content="'+ data.data.duration +'" />');
+            $lly(that).append('<meta itemprop="aggregateRating" content="'+ data.data.rating +'" />');
+            // TODO: Retrieve and use even more data for Video SEO.
+              // Get possible response data with http://www.jsoneditoronline.org/ and http://gdata.youtube.com/feeds/api/videos/pk99sSGF0YE?v=2&alt=jsonc
+        });
+
+      }
+
       $lly(this).attr("id", youid + index);
-      $lly(this).attr("href", "//www.youtube.com/watch?v=" + youid + (start ? "#t=" + start + "s" : ""));
-      var emu = '//www.youtube.com/embed/' + embedparms;
+      $lly(this).attr("href", youtubeUrl( youid ) + (start ? "#t=" + start + "s" : ""));
 
       /*
        * Configure URL parameters
@@ -139,10 +171,21 @@ $lly(document).ready(function() {
        * Register "onclick" event handler
        */
       $lly( this ).on( "click", function() {
-        $lly( this ).prev( classBrandingDot ).remove();
+
+        removePlayerControls(this);
+        removeBranding(this);
+
         $lly('#' + youid + index).replaceWith( videoFrame );
         return false;
       });
+
+      var removePlayerControls = function( element ) {
+        $lly(element).removeClass(classPreviewYoutube);
+      };
+      var removeBranding = function( element ) {
+        $lly(element).prev( classBrandingDot ).remove();
+      };
+
     });
 
   };
