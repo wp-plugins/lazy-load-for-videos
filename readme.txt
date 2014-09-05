@@ -100,7 +100,7 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 = 1.6.2 =
 * New feature (beta): Apply schema.org markup to videos
 * Fix: The new CSS play buttons caused some errors that have been fixed with this update
-* Fix: Use WordPress' built in function to delete oembed caches. Much better performance! Now, again, do update all posts that have an oembedded medium when user activates the plugin
+* Fix: Use WordPress' built in function to delete oembed caches. Much better performance! Delete oembed caches when user activates (and deactivates) the plugin
 * Fix: Actually remove the "i" link when the option to remove it is checked
 * Fix to make the plugin ready for WordPress 4.0 and its new feature to display video previews in editor
 
