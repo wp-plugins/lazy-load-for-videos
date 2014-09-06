@@ -3,6 +3,7 @@
  * by Kevin Weber (kevinw.de)
  */
 
+jQuery.noConflict();
 (function( lazyload_youtube, $, undefined ) {
 
   // Classes
