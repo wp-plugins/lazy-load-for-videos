@@ -2,14 +2,34 @@
 /**
  * @package Frontend
  */
-class LAZYLOAD_Frontend {
+class Lazyload_Frontend {
 
 	function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_lazyload_style') );
 		add_action( 'wp_head', array( $this, 'load_lazyload_css') );
 		require_once( LL_PATH . 'frontend/class-youtube.php' );
 		require_once( LL_PATH . 'frontend/class-vimeo.php' );
-		$this->remove_branding();
+	}
+
+	function enable_lazyload_js_init() {
+		$lazyload_frontend = new Lazyload_Frontend();
+		add_action( 'wp_head', array( $lazyload_frontend, 'enable_lazyload_js' ) );
+	}
+	function enable_lazyload_js() {
+		wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/min/lazyload-video-ck.js' , __FILE__ ) );
+		?>
+		<script>
+
+		var $lazyload_video = jQuery.noConflict();
+
+		$lazyload_video(window).on( "load", function() {
+			lazyload_video.init({
+				displayBranding: 'true',
+				<?php do_action( 'lly_set_options' ); ?>
+			});
+		});
+		</script>
+		<?php
 	}
 
 	/**
@@ -27,14 +47,16 @@ class LAZYLOAD_Frontend {
 	 * Add CSS
 	 */
 	function load_lazyload_css() {
-		echo '<style type="text/css">';
+		if ( $this->test_if_scripts_should_be_loaded() ) {
+			echo '<style type="text/css">';
 
-		$this->load_lazyload_css_thumbnail_size();
-		$this->load_lazyload_css_video_titles();
-		$this->load_lazyload_css_button_style();
-		$this->load_lazyload_css_custom();
+			$this->load_lazyload_css_thumbnail_size();
+			$this->load_lazyload_css_video_titles();
+			$this->load_lazyload_css_button_style();
+			$this->load_lazyload_css_custom();
 
-		echo '</style>';
+			echo '</style>';
+		}
 	}
 
 	/**
@@ -75,7 +97,10 @@ class LAZYLOAD_Frontend {
     		// ... and remove CSS-only content
     		echo $this->load_css_button_selectors() . ' { content: ""; }';
     	}
-    	else if ( get_option('ll_opt_button_style') == 'css_black' ) {
+    	else if (
+    			get_option('ll_opt_button_style') == 'css_black'
+    			|| get_option('ll_opt_button_style') == 'css_black_pulse'
+    		) {
     		echo $this->load_css_button_selectors() . ' { color: #000; text-shadow: none; }';
     		echo $this->load_css_button_selectors(':hover') . ' { text-shadow: none; }';
     	}
@@ -100,22 +125,13 @@ class LAZYLOAD_Frontend {
 		$lazyload_general = new LAZYLOAD_General();
 
 		return
-			( get_option('ll_opt_load_scripts') != true ) ||	// Option "Support for Widgets (Youtube only)" is checked
+			( get_option('ll_opt_load_scripts') != '1' ) ||	// Option "Support for Widgets (Youtube only)" is checked
 			( get_option('lly_opt_support_for_widgets') == true ) ||	// Option "Support for Widgets (Youtube only)" is checked
-			( is_singular() && ($lazyload_general->test_if_post_or_page_has_embed()) ) ||	// Pages/posts with oembedded media
-			( !is_singular() )	// Everything else (except for pages/posts without oembedded media)
+			( is_singular() && ($lazyload_general->test_if_post_or_page_has_embed()) )	// Pages/posts with oembedded media
+			//|| ( !is_singular() )	// Everything else (except for pages/posts without oembedded media)
 		? true : false;
-	}
-
-	/**
-	 * Remove branding
-	 */
-	function remove_branding() {
-		if ( get_option('ll_remove_branding') == true ) {
-			require_once( LL_PATH . 'frontend/inc/remove_branding.php');
-		}
 	}
 
 }
 
-$lazyload_frontend = new LAZYLOAD_Frontend();
+$lazyload_frontend = new Lazyload_Frontend();

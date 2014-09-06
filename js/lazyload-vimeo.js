@@ -11,12 +11,17 @@ var classPreviewVimeo = 'preview-vimeo';
 var classBranding = 'lazyload-info-icon';
   var classBrandingDot = '.' + classBranding;
 
+// Helpers
+var videoratio = 0.5625;
+
 
 var $llv_o;
 var setOptionsVimeo = function(options) {
   $llv_o = $llv.extend({
+      buttonstyle: '',
       playercolour: '',
       videoseo: false,
+      responsive: true,
     },
     options);
 };
@@ -37,7 +42,7 @@ $llv(document).ready(function() {
        * Load plugin info
        */
       var loadPluginInfo = function() {
-        return '<a class="' + classBranding + '" href="http://kevinw.de/lazyloadvideos" title="Lazy Load for Videos by Kevin Weber" target="_blank">i</a>';
+        return '<a class="' + classBranding + '" href="http://kevinw.de/lazy-load-videos/" title="Lazy Load for Videos by Kevin Weber" target="_blank">i</a>';
       };
 
       /*
@@ -69,6 +74,9 @@ $llv(document).ready(function() {
       }
 
       $llv(this).html('<iframe src="' + vimeoUrl( vid ) + '?autoplay=1' + playercolour + '" style="height:' + (parseInt($llv("#" + vid).css("height"))) + 'px;width:100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen autoPlay allowFullScreen></iframe>');
+      if (typeof responsiveVideos.resize === 'function' && $llv_o.responsive === true) { 
+        responsiveVideos.resize(); 
+      }
     });
   };
 
@@ -108,7 +116,7 @@ $llv(document).ready(function() {
       itemprop_name = ' itemprop="name"';
     }
 
-    $llv("#" + id).prepend(script).prepend('<div style="height:' + (parseInt($llv("#" + id).css("height"))) + 'px;width:' + (parseInt($llv("#" + id).css("width"))) + 'px;" class="lazy-load-vimeo-div"><span class="titletext vimeo"'+itemprop_name+'></span></div>');
+    $llv("#" + id).prepend(script).prepend('<div style="height:' + (parseInt($llv("#" + id).css("height"))) + 'px;width:' + (parseInt($llv("#" + id).css("width"))) + 'px;" class="lazy-load-vimeo-div"><span class="titletext vimeo"'+itemprop_name+'></span></div>').addClass($llv_o.buttonstyle);
 
     vimeoVideoSeo( id );
   };
@@ -147,17 +155,68 @@ $llv(document).ready(function() {
     doload_llv();
   });
 
+
   /*
-   * Prevent users from removing branding // YOU'RE NOT ALLOWED TO EDIT THE FOLLOWING LINES OF CODE
+   * Ensure that a handler is run before any other registered handlers,
+   * independent of the order in which they were bound
+   * As seen on http://stackoverflow.com/questions/2360655/jquery-event-handlers-always-execute-in-order-they-were-bound-any-way-around-t
+   * and on https://gist.github.com/infostreams/6540654
    */
-  var displayBranding = function() {
-    if ($llv_o.displayBranding !== false) {
-      $llv(classBrandingDot).css({
-        'display': 'block',
-        'visibility': 'visible',
+  $llv.fn.bindFirst = function(which, handler) {
+        // ensures a handler is run before any other registered handlers, 
+        // independent of the order in which they were bound
+        var $el = $llv(this);
+        $el.unbind(which, handler);
+        $el.bind(which, handler);
+   
+        var events = $llv._data($el[0]).events;
+        var registered = events[which];
+        registered.unshift(registered.pop());
+   
+        events[which] = registered;
+      };
+
+  /*
+   * The following code bases on "Responsive Video Embeds" by Kevin Leary, www.kevinleary.net, WordPress development in Boston, MA
+   */
+  var responsiveVideos = {
+
+    config: {
+      container: $llv( '.container-lazyload' ),
+      selector: 'object, embed, iframe, .preview-lazyload, .lazy-load-youtube-div, .lazy-load-vimeo-div'
+    },
+
+    init: function() {
+      if ( responsiveVideos.config.container.length > 0 ) {
+        $llv( window ).on( 'resize', responsiveVideos.resize );
+        // Use bindFirst() to ensure that other plugins like Inline Comments work correctly (in case they depend on the video heights)
+        $llv( window ).bindFirst( 'load', function() { responsiveVideos.resize(); } );
+      }
+    },
+
+    resize: function() {
+      $llv( responsiveVideos.config.selector, responsiveVideos.config.container ).each( function () {
+
+        var $this = $llv( this );
+        var width = $this.parent().width();
+        var height = Math.round( width * videoratio );
+
+        $this.attr( 'height', height );
+        $this.attr( 'width', width );
+        $this.css({
+            'height': height,
+            'width': width,
+          });
+
       });
-    }
+    },
+
   };
-  displayBranding();
+
+  if (typeof responsiveVideos.init === 'function' && $llv_o.responsive === true ) { 
+    responsiveVideos.init();
+  }
+
+
 
 });

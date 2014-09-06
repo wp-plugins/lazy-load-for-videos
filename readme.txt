@@ -4,7 +4,7 @@ Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.6.2
+Stable tag: 2.0
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -15,11 +15,12 @@ Speed up your site by replacing embedded Youtube and Vimeo videos with a clickab
 This plugin improves page load times and increases your Google PageSpeed Score. It replaces embedded Youtube and Vimeo videos with a clickable preview image.
 By loading the videos only when the user clicks on the preview image – using jQuery –, no unnecessary JavaScript is loaded. Especially on sites with many embedded videos this will make your visitors happy.
 
-Demo on the developer’s website: [kevinw.de/lazyloadvideos](http://kevinw.de/lazyloadvideos)
+Demo on the developer’s website: [kevinw.de/lazy-load-videos/](http://kevinw.de/lazy-load-videos/)
 
 = Some additional features: =
 * Display video titles on preview images
 * Convert all videos into a playlist and automatically add your corporate video, product teaser or another video advertisement at the end of every video. (Great for branding and video ads!)
+* Pre-roll and post-roll advertisements
 * Add Custom CSS via plugin’s options panel
 * Choose custom colour for your Vimeo player
 * Hide controls from Youtube player
@@ -34,7 +35,7 @@ Demo on the developer’s website: [kevinw.de/lazyloadvideos](http://kevinw.de/l
 * (Better) support with specific plugins
 * Support for new/other formats, like SoundCloud, SlideShare and Spotify 
 * Create a custom "Play" button with a colour picker
-* New "Play" button styles
+* More "Play" button styles
 * Video preview image for feeds
 * Track how often the videos have been loaded with Google Analytics
 * What you suggest
@@ -44,9 +45,11 @@ Demo on the developer’s website: [kevinw.de/lazyloadvideos](http://kevinw.de/l
 
 Easily upload Lazy Load for Videos into you plugin directory (/wp-content/plugins/) and activate the plugin through the 'Plugins' menu in WordPress.
 
+When you had already published videos before you have activated Lazy Load for Videos, update all posts by clicking the "Update Posts" button below the "Save Changes" button.
+
 You may have to clean the website's and browser's cache.
 
-If you don't see a preview image instead of the Youtube video, open the post editor and update/save the post again. This should help.
+If you don't see a preview image instead of the Youtube/Vimeo video, open the post editor and update/save the post again or even update all posts using the above mentioned "Update Posts" button.
 
 
 == Frequently Asked Questions ==
@@ -97,10 +100,17 @@ Easily post the URL to your content (e.g. Youtube video) into a post or page. Th
 
 == Changelog ==
 
+= 2.0 =
+* New feature: Youtube and Vimeo videos are responsive now! The video height automatically adjusts to its width
+* New feature: Set default thumbnail quality. Choose between standard and maximum resolution. You can override the default setting on every post and page individually.
+* Two new styles for the play button: "White Pulse" and "Black Pulse".
+* Improvement: Use POST method to update all posts/pages.
+* Added very basic RTL (right-to-left) language support.
+
 = 1.6.2 =
 * New feature (beta): Apply schema.org markup to videos
 * Fix: The new CSS play buttons caused some errors that have been fixed with this update
-* Fix: Use WordPress' built in function to delete oembed caches. Much better performance! Delete oembed caches when user activates (and deactivates) the plugin
+* Fix: Use WordPress' built in function to delete oembed caches. Much better performance! Now, again, do update all posts that have an oembedded medium when user activates the plugin
 * Fix: Actually remove the "i" link when the option to remove it is checked
 * Fix to make the plugin ready for WordPress 4.0 and its new feature to display video previews in editor
 

@@ -1,17 +1,17 @@
 <?php
 /*
  * Plugin Name: Lazy Load for Videos
- * Plugin URI: http://kevinw.de/lazyloadvideos
+ * Plugin URI: http://kevinw.de/lazy-load-videos/
  * Description: Lazy Load for Videos speeds up your site by replacing embedded Youtube and Vimeo videos with a clickable preview image. Visitors simply click on the image to play the video.
  * Author: Kevin Weber
- * Version: 1.6.2
+ * Version: 2.0
  * Author URI: http://kevinw.de/
  * License: GPL v3
  * Text Domain: lazy-load-videos
 */
 
 /*
-	Copyright (C) 2014 Kevin Weber>
+	Copyright (C) 2014 Kevin Weber
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define( 'LL_VERSION', '1.6.2' );
+define( 'LL_VERSION', '2.0' );
 
 if ( !defined( 'LL_FILE' ) ) {
 	define( 'LL_FILE', __FILE__ );
@@ -47,21 +47,35 @@ require_once( LL_PATH . 'inc/class-general.php' );
 function lazyload_init_plugins_loaded() {
 	require_once( LL_PATH . 'admin/class-admin-options.php' );
 	require_once( LL_PATH . 'frontend/class-frontend.php' );
+}
+add_action( 'plugins_loaded', 'lazyload_init_plugins_loaded', 15 );
+
+
+
+function admin_init() {
 	if ( LL_ESSENTIAL ) {
-		require_once( LL_PATH . 'admin/inc/class-no-premium.php'); 
+		include_once( LL_PATH . 'admin/inc/class-no-premium.php'); 
+	}
+	require_once( LL_PATH . 'admin/class-meta.php' );
+}
+function frontend_init() {
+	// Feature: Support for Widgets (Youtube only)
+	if ( (get_option('lly_opt_support_for_widgets') == true) ) {
+		require_once( LL_PATH . 'frontend/inc/support_for_widgets.php');
+	}
+	// Feature: Support for Plugin "TablePress"
+	if ( (get_option('ll_opt_support_for_tablepress') == true) ) {
+		require_once( LL_PATH . 'frontend/inc/support_for_tablepress.php');
 	}
 }
 
-// Feature: Support for Widgets (Youtube only)
-if ( (get_option('lly_opt_support_for_widgets') == true) && !is_admin() ) {
-	require_once( LL_PATH . 'frontend/inc/support_for_widgets.php');
+if ( is_admin() ) {
+	add_action( 'plugins_loaded', 'admin_init', 16 );
 }
-// Feature: Support for Plugin "TablePress"
-if ( (get_option('ll_opt_support_for_tablepress') == true) && !is_admin() ) {
-	require_once( LL_PATH . 'frontend/inc/support_for_tablepress.php');
+else {
+	add_action( 'plugins_loaded', 'frontend_init', 16 );
 }
 
-add_action( 'plugins_loaded', 'lazyload_init_plugins_loaded', 15 );
 
 /***** Plugin by Kevin Weber || kevinw.de *****/
 ?>
