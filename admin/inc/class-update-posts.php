@@ -2,28 +2,11 @@
 /**
  * @package Admin
  */
-class lazyload_Update_Posts {
-
-	/**
-	 * Update all posts that have an oembedded medium
-	 */
-	function lazyload_update_posts_with_oembed(){
-			// $lazyload_general = new LAZYLOAD_General();
-
-		 //    $arr_posts = get_posts( array( 'post_type' => 'post', 'posts_per_page' => -1 ) );	// -1 == no limit
-
-		 //    foreach ( $arr_posts as $post ):
-		 //    	if ( $lazyload_general->test_if_post_or_page_has_embed( $post->ID ) ) {
-		 //    		wp_update_post( $post );
-		 //    	}
-		 //    endforeach;
-
-		$this->delete_oembed_caches();
-	}
+class Lazyload_Update_Posts {
 
 	/**
 	 * Use WordPress' built in function to delete oembed caches
-	 * Performs much better than the old lazyload_update_posts_with_oembed();
+	 * Unused by core since WP 4.0.0 (http://developer.wordpress.org/reference/classes/wp_embed/delete_oembed_caches/)
 	 *
 	 * @since 1.6.2
 	 */
@@ -35,6 +18,15 @@ class lazyload_Update_Posts {
 	    foreach ( $arr_posts as $post ):
 	    	$wp_embed->delete_oembed_caches( $post->ID );
 	    endforeach;
+	}
+
+	/**
+	 * Delete cache for a single post
+	 * @since 2.0.3
+	 */
+	function delete_oembed_cache( $post_id ) {
+		global $wp_embed;
+		$wp_embed->delete_oembed_caches( $post_id );
 	}
 
 }
