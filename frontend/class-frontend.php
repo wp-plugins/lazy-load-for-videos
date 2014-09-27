@@ -2,7 +2,7 @@
 /**
  * @package Frontend
  */
-class Lazyload_Frontend {
+class Lazyload_Videos_Frontend {
 
 	function __construct() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_lazyload_style') );
@@ -12,7 +12,7 @@ class Lazyload_Frontend {
 	}
 
 	function enable_lazyload_js_init() {
-		$lazyload_frontend = new Lazyload_Frontend();
+		$lazyload_frontend = new Lazyload_Videos_Frontend();
 		add_action( 'wp_head', array( $lazyload_frontend, 'enable_lazyload_js' ) );
 	}
 	function enable_lazyload_js() {
@@ -122,17 +122,16 @@ class Lazyload_Frontend {
 	 * Don't load scripts on specific circumstances
 	 */
 	function test_if_scripts_should_be_loaded() {
-		require_once( LL_PATH . 'inc/class-general.php' );
-		$lazyload_general = new Lazyload_General();
-
+		$lazyload_videos_general = new Lazyload_Videos_General();
+		
 		return
 			( get_option('ll_opt_load_scripts') != '1' ) ||	// Option "Support for Widgets (Youtube only)" is checked
 			( get_option('lly_opt_support_for_widgets') == true ) ||	// Option "Support for Widgets (Youtube only)" is checked
-			( is_singular() && ($lazyload_general->test_if_post_or_page_has_embed()) )	// Pages/posts with oembedded media
+			( is_singular() && ($lazyload_videos_general->test_if_post_or_page_has_embed()) )	// Pages/posts with oembedded media
 			//|| ( !is_singular() )	// Everything else (except for pages/posts without oembedded media)
 		? true : false;
 	}
 
 }
 
-$lazyload_frontend = new Lazyload_Frontend();
+new Lazyload_Videos_Frontend();

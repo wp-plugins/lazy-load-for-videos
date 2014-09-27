@@ -2,7 +2,7 @@
 /**
  * @package General (needed for both: admin and frontend)
  */
-class Lazyload_General {
+class Lazyload_Videos_General {
 
 	/**
 	 * Thanks to http://t31os.wordpress.com/2010/05/24/post-has-embed/ for a nicer solution than mine
@@ -33,6 +33,42 @@ class Lazyload_General {
 		} else {
 			return false;
 	    }
+	}
+
+	/**
+	 * Set supported post types
+	 * @return array()
+	 * @since 2.0.4
+	 */
+	private function set_post_types() {
+		$post_types = array(
+			'post',
+			'page',
+			// Typical custom post type names
+			'portfolio',
+			'news',
+			'article',
+			'articles',
+			'event',
+			'events',
+			'testimonial',
+			'testimonials',
+			'client',
+			'clients',
+		);
+		$post_types = apply_filters( 'lazyload_videos_post_types' , $post_types );
+
+		return $post_types;
+	}
+
+	/**
+	 * Get supported post types
+	 * @return array()
+	 * @since 2.0.4
+	 */
+	function get_post_types() {
+		$post_types = $this->set_post_types();
+		return $post_types;
 	}
 
 }

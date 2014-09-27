@@ -3,7 +3,7 @@
  * @package Admin
  */
 
-class Lazyload_Meta {
+class Lazyload_Videos_Meta {
 
 	private $select_thumbnail_quality = 'lazyload_thumbnail_quality';
 
@@ -21,8 +21,9 @@ class Lazyload_Meta {
 	}
 
 	function add_meta_box() {
-
-		$screens = array( 'post', 'page' );
+		$lazyload_videos_general = new Lazyload_Videos_General();
+		
+		$screens = $lazyload_videos_general->get_post_types();
 
 		foreach ( $screens as $screen ) {
 			add_meta_box(
@@ -107,4 +108,4 @@ class Lazyload_Meta {
 
 }
 
-new Lazyload_Meta();
+new Lazyload_Videos_Meta();
