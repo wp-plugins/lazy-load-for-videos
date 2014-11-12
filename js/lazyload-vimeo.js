@@ -62,7 +62,11 @@ jQuery.noConflict();
    * Create info element
    */
   var createPluginInfo = function() {
-    if ($_o.displayBranding !== false) {
+      if (
+          ( $_o.displayBranding !== false ) &&
+          ( $( classPreviewVimeoDot ).siblings(classBrandingDot).length === 0 ) // This prevents the site from creating unnecessary duplicate brandings
+        )
+      {
       // source = Video
       var source = $( classPreviewVimeoDot );
       // element = Plugin info element
@@ -113,6 +117,7 @@ jQuery.noConflict();
   var vimeoCreateThumbProcess = function() {
     $(classPreviewVimeoDot).each(function() {
       var vid = getAttrId(this);
+      $(this).empty();  // Remove no longer needed title (title is necessary for preview in text editor)
       vimeoLoadingThumb(vid);
     });
   };

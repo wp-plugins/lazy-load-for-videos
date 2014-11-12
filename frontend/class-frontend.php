@@ -16,7 +16,7 @@ class Lazyload_Videos_Frontend {
 		add_action( 'wp_head', array( $lazyload_frontend, 'enable_lazyload_js' ) );
 	}
 	function enable_lazyload_js() {
-		wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/min/lazyload-video-ck.js' , __FILE__ ) );
+		wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/lazyload-video.js' , __FILE__ ) );
 		?>
 		<script>
 
@@ -94,6 +94,12 @@ class Lazyload_Videos_Frontend {
     	if ( get_option('ll_opt_button_style') == 'youtube_button_image' ) {
     		// Display youtube button image
     		echo '.preview-youtube .lazy-load-youtube-div, .lazy-load-vimeo-div { background: url('.plugin_dir_url( __FILE__ ).'../images/play-youtube.png) center center no-repeat; }';	
+    		// ... and remove CSS-only content
+    		echo $this->load_css_button_selectors() . ' { content: ""; }';
+    	}
+    	else if ( get_option('ll_opt_button_style') == 'youtube_button_image_red' ) {
+    		// Display RED youtube button image
+    		echo '.preview-youtube .lazy-load-youtube-div, .lazy-load-vimeo-div { background: url('.plugin_dir_url( __FILE__ ).'../images/play-y-red.png) center center no-repeat; }';	
     		// ... and remove CSS-only content
     		echo $this->load_css_button_selectors() . ' { content: ""; }';
     	}

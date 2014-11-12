@@ -4,7 +4,7 @@ Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -20,7 +20,6 @@ Demo on the developer’s website: [kevinw.de/lazy-load-videos/](http://kevinw.d
 = Some additional features: =
 * Display video titles on preview images
 * Convert all videos into a playlist and automatically add your corporate video, product teaser or another video advertisement at the end of every video. (Great for branding and video ads!)
-* Pre-roll and post-roll advertisements
 * Add Custom CSS via plugin’s options panel
 * Choose custom colour for your Vimeo player
 * Hide controls from Youtube player
@@ -29,7 +28,9 @@ Demo on the developer’s website: [kevinw.de/lazy-load-videos/](http://kevinw.d
 * Choose from several "Play" buttons
 * Choose between two colours for Youtube player (dark or light)
 * Choose between two colours for Youtube player’s video progress bar to highlight the amount of the video that the viewer has already seen (red or white)
-* Don’t display related videos at the end of your videos
+* Don't display related videos at the end of your videos
+* Works with WordPress Multisite
+* Premium feature: Pre-roll and post-roll advertisements
 
 = Future features: =
 * (Better) support with specific plugins
@@ -43,13 +44,17 @@ Demo on the developer’s website: [kevinw.de/lazy-load-videos/](http://kevinw.d
 
 == Installation ==
 
-Easily upload Lazy Load for Videos into you plugin directory (/wp-content/plugins/) and activate the plugin through the 'Plugins' menu in WordPress.
+Upload Lazy Load for Videos into you plugin directory (/wp-content/plugins/) and activate the plugin through the 'Plugins' menu in WordPress.
 
 When you had already published videos before you have activated Lazy Load for Videos, update all posts by clicking the "Update Posts" button below the "Save Changes" button.
 
 You may have to clean the website's and browser's cache.
 
 If you don't see a preview image instead of the Youtube/Vimeo video, open the post editor and update/save the post again or even update all posts using the above mentioned "Update Posts" button.
+
+NOTICE - this is important to make your videos work as expected:
+Easily insert the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
+Inserting a Youtube <iframe> (instead of the plain URL) is deprecated and not supported by Lazy Load for Videos.
 
 
 == Frequently Asked Questions ==
@@ -85,7 +90,8 @@ Yes!
 PageSpeed Insights is a service by Google to help you optimize your site's performance. You can analyse your site using a browser extension or online, more information: https://developers.google.com/speed/pagespeed/
 
 = How to embed videos in WordPress? =
-Easily post the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
+Easily insert the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
+Inserting a Youtube <iframe> (instead of the plain URL) is deprecated and not supported by Lazy Load for Videos.
 
 = How to add support for custom post types? =
 You can use a filter to add support for a custom post type (since version 2.0.4).
@@ -112,6 +118,13 @@ add_action( 'lazyload_videos_post_types', 'lazyload_videos_set_post_types' );`
 
 
 == Changelog ==
+
+= 2.0.7 =
+* Added red play button to the list of play buttons.
+* Added support for three more post types (any, home_slider, nectar_slider).
+* Fix: Display videos on BuddyPress activity streams.
+* Fix: Don't duplicate branding links (as seen on BuddyPress activity streams).
+* Fix: Actually clear oembed cache when post is updated.
 
 = 2.0.6 =
 * Improvement: Reduced memory usage when all posts are updated.
@@ -146,7 +159,7 @@ add_action( 'lazyload_videos_post_types', 'lazyload_videos_set_post_types' );`
 * Fix to make the plugin ready for WordPress 4.0 and its new feature to display video previews in editor
 
 = 1.6.1 =
-* Wrapped videos into a <div> container.
+* Wrapped videos into a div-container.
 
 = 1.6 =
 * New feature: Choose from three play buttons (CSS-only white, CSS-only black, Youtube button image)

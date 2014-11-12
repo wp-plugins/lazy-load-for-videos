@@ -54,13 +54,6 @@ class Lazyload_Videos_Admin {
 	 * Thanks to Otto's comment on StackExchange (See http://wordpress.stackexchange.com/a/19533)
 	 */
 	function lazyload_replace_video($return, $data, $url) {
-		/**
-		 * Because of WordPress 4.0 video preview in editor feature:
-		 * Only go on when user is not on an admin page
-		 * @since 1.6.2
-		 */
-		if (is_admin()) return $return;
-
 		// Youtube support
 	    if ( (! is_feed()) && ($data->provider_name == 'YouTube') 
 				&& (get_option('lly_opt') == false) // test if Lazy Load for Youtube is deactivated
@@ -69,7 +62,7 @@ class Lazyload_Videos_Admin {
 	    	$a_class = 'lazy-load-youtube preview-lazyload preview-youtube';
 	    	$a_class = apply_filters( 'lazyload_preview_url_a_class_youtube', $a_class );
 
-       		$preview_url = '<a class="' . $a_class . '" href="' . $url . '" video-title="' . $data->title . '" title="Play Video &quot;' . $data->title . '&quot;">&ensp;</a>';
+       		$preview_url = '<a class="' . $a_class . '" href="' . $url . '" video-title="' . $data->title . '" title="Play Video &quot;' . $data->title . '&quot;" style="text-decoration:none;color:#000">' . $url . '</a>';
  			
  			// Wrap container around $preview_url
        		$preview_url = '<div class="container-lazyload preview-lazyload container-youtube"'. $this->get_schema_prop_video() .'>' . $preview_url . '</div>';
@@ -92,9 +85,7 @@ class Lazyload_Videos_Admin {
 	    	$a_class = 'lazy-load-vimeo preview-lazyload preview-vimeo';
 	    	$a_class = apply_filters( 'lazyload_preview_url_a_class_youtube', $a_class );
 
-			$preview_url = '<div id="' . $vimeoid . '" class="' . $a_class . '" title="Play Video &quot;' . $data->title . '&quot;">
-					
-				</div>';
+			$preview_url = '<div id="' . $vimeoid . '" class="' . $a_class . '" title="Play Video &quot;' . $data->title . '&quot;">' . $url . '</div>';
 			// Wrap container around $preview_url
 			$preview_url = '<div class="container-lazyload container-vimeo"'. $this->get_schema_prop_video() .'>' . $preview_url . '</div>';
 			return apply_filters( 'lazyload_replace_video_preview_url_vimeo', $preview_url );
@@ -181,7 +172,7 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Play Button <span class="newred">New styles!</span></label></th>
+					        	<th scope="row"><label>Play Button <span class="newred">New red button!</span></label></th>
 						        <td>
 									<select class="select" typle="select" name="ll_opt_button_style">
 										<option value="default"<?php if (get_option('ll_opt_button_style') === 'default') { echo ' selected="selected"'; } ?>>White (CSS-only)</option>
@@ -189,6 +180,7 @@ class Lazyload_Videos_Admin {
 										<option value="css_black"<?php if (get_option('ll_opt_button_style') === 'css_black') { echo ' selected="selected"'; } ?>>Black (CSS-only)</option>
 										<option value="css_black_pulse"<?php if (get_option('ll_opt_button_style') === 'css_black_pulse') { echo ' selected="selected"'; } ?>>Black Pulse (CSS-only)</option>
 										<option value="youtube_button_image"<?php if (get_option('ll_opt_button_style') === 'youtube_button_image') { echo ' selected="selected"'; } ?>>Youtube button image</option>
+										<option value="youtube_button_image_red"<?php if (get_option('ll_opt_button_style') === 'youtube_button_image_red') { echo ' selected="selected"'; } ?>>Red Youtube button image</option>
 									</select>
 						        </td>
 					        </tr>
