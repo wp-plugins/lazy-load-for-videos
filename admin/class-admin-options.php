@@ -13,19 +13,27 @@ class Lazyload_Videos_Admin {
 		// The 'oembed_dataparse' filter should be called on backend AND on frontend, not only on backend [is_admin()]. Otherwise, on some websites occur errors.
 		add_filter( 'oembed_dataparse', array( $this, 'lazyload_replace_video' ), 10, 3 );
 		add_action( 'admin_menu', array( $this, 'lazyload_create_menu' ) );
+		$this->lazyloadvideos_update_posts_with_embed();
 	}
 
 	function admin_init() {
 		if ( isset( $_GET['page'] ) && ( $_GET['page'] == LL_ADMIN_URL ) ) {
-			if ( isset( $_POST['update_posts'] ) && $_POST['update_posts'] == 'with_oembed' ) {
-				lazyloadvideos_update_posts_with_embed();
-			}
 			$this->lazyload_admin_css();
 			$this->lazyload_admin_js();
 		}
 		$plugin = plugin_basename( LL_FILE ); 
 		add_filter("plugin_action_links_$plugin", array( $this, 'lazyload_settings_link' ) );
 		$this->register_lazyload_settings();
+	}
+
+	/*
+	 * Update posts with embed when user has clicked "Update Posts"
+	 * @info: lazyloadvideos_update_posts_with_embed() is loaded by class-register.php
+	 */
+	function lazyloadvideos_update_posts_with_embed() {
+		if ( isset( $_POST['update_posts'] ) && $_POST['update_posts'] == 'with_oembed' ) {
+			lazyloadvideos_update_posts_with_embed();
+		}
 	}
 
 	/**
@@ -106,6 +114,7 @@ class Lazyload_Videos_Admin {
 			'll_opt_button_style',
 			'll_opt_thumbnail_size',
 			'll_opt_customcss',
+			'll_video_seo', // Google: "Make sure that your video and schema.org markup are visible without executing any JavaScript or Flash." --> Video is not working with Lazy Load
 			'll_opt_support_for_tablepress',
 
 			// Youtube
@@ -115,8 +124,10 @@ class Lazyload_Videos_Admin {
 			'lly_opt_thumbnail_quality',
 			'lly_opt_player_colour',
 			'lly_opt_player_colour_progress',
+			'lly_opt_player_showinfo',
 			'lly_opt_player_relations',
 			'lly_opt_player_controls',
+			'lly_opt_player_loadpolicy',
 
 			// Vimeo
 			'llv_opt',
@@ -142,7 +153,7 @@ class Lazyload_Videos_Admin {
 			<ul class="ui-tabs-nav">
 		        <li><a href="#general">General/Styling <span class="newred_dot">&bull;</span></a></li>
 		        <li><a href="#youtube">Youtube <span class="newred_dot">&bull;</span></a></li>
-		    	<li><a href="#vimeo">Vimeo</a></li>
+		    	<li><a href="#vimeo">Vimeo <span class="newred_dot">&bull;</span></a></li>
 		        <?php do_action( 'lazyload_settings_page_tabs_link_after' ); ?>
 		    </ul>
 
@@ -166,9 +177,9 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 				        	<tr valign="top">
-						        <th scope="row"><label>Responsive Mode <span class="newred">New!</span></label></th>
+						        <th scope="row"><label>Responsive Mode</label></th>
 						        <td>
-									<input name="ll_opt_load_responsive" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_load_responsive' ) ); ?> /> <label>Check this to improve responsiveness.</label>
+									<input name="ll_opt_load_responsive" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_load_responsive' ) ); ?> /> <label>Check this to improve responsiveness. Video aspect ratio will be 16:9.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
@@ -200,6 +211,12 @@ class Lazyload_Videos_Admin {
 					        	</td>
 					        </tr>
 					        <tr valign="top">
+						        <th scope="row"><label>Schema.org Markup <span class="newred">Beta</span></label></th>
+						        <td>
+									<input name="ll_video_seo" type="checkbox" value="1" <?php checked( '1', get_option( 'll_video_seo' ) ); ?> /> <label>Add schema.org markup to your Youtube and Vimeo videos. Those changes don't seem to affect your search ranking because videos and schema.org markup <a href="https://developers.google.com/webmasters/videosearch/schema" target="_blank">should be visible</a> without JavaScript (but that cannot be the case when videos are lazy loaded).</label> <label><span style="color:#f60;">Important:</span> Updates on this option will only affect new posts and posts you update afterwards with the "Update Posts" button at the bottom of this form.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
 						        <th scope="row"><label>Support for TablePress</label></th>
 						        <td>
 									<input name="ll_opt_support_for_tablepress" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_support_for_tablepress' ) ); ?> /> <label>Only check this box if you actually use this feature (for reason of performance). If checked, you can paste a Youtube or Vimeo URL into tables that are created with TablePress and it will be lazy loaded.</label>
@@ -229,7 +246,7 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Default thumbnail quality <span class="newred">New!</span></label></th>
+					        	<th scope="row"><label>Default thumbnail quality</label></th>
 						        <td>
 									<select class="select" typle="select" name="lly_opt_thumbnail_quality">
 										<option value="0"<?php if (get_option('lly_opt_thumbnail_quality') === '0') { echo ' selected="selected"'; } ?>>Standard quality</option>
@@ -260,6 +277,12 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
+					        	<th scope="row"><label>Hide title/uploader <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="lly_opt_player_showinfo" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_showinfo' ) ); ?> /> <label>If checked, information like the video title and uploader will not be displayed when the video starts playing. This option only affects the playing video, not the video thumbnail.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
 					        	<th scope="row"><label>Hide related videos</label></th>
 						        <td>
 									<input name="lly_opt_player_relations" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_relations' ) ); ?> /> <label>If checked, related videos at the end of your videos will not be displayed.</label>
@@ -269,6 +292,12 @@ class Lazyload_Videos_Admin {
 					        	<th scope="row"><label>Hide player controls</label></th>
 						        <td>
 									<input name="lly_opt_player_controls" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_controls' ) ); ?> /> <label>If checked, Youtube player controls will not be displayed.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Hide annotations <span class="newred">New!</span></label></th>
+						        <td>
+									<input name="lly_opt_player_loadpolicy" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_loadpolicy' ) ); ?> /> <label>If checked, video annotations (like "subscribe to channel") will not be shown.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
@@ -300,10 +329,9 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Colour of the vimeo controls</label></th>
+					        	<th scope="row"><label>Colour of the vimeo controls <span class="newred">Improved</span></label></th>
 					        	<td>
-					        		<input id="llv_picker_input_player_colour" class="picker-input" type="text" name="llv_opt_player_colour" placeholder="#00adef" value="<?php if (get_option("llv_opt_player_colour") == "") { echo "#00adef"; } else { echo get_option("llv_opt_player_colour"); } ?>" />
-					        		<div id="llv_picker_player_colour" class="picker-style"></div>
+					        		<input id="llv_picker_input_player_colour" class="ll_picker_player_colour picker-input" type="text" name="llv_opt_player_colour" data-default-color="#00adef" value="<?php if (get_option("llv_opt_player_colour") == "") { echo "#00adef"; } else { echo get_option("llv_opt_player_colour"); } ?>" />
 					        	</td>
 					        </tr>
 			        	</tbody>
@@ -347,13 +375,13 @@ class Lazyload_Videos_Admin {
 	}
 
 	function lazyload_admin_js() {
-	    wp_enqueue_script( 'lazyload_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array('jquery', 'jquery-ui-tabs', 'farbtastic' ) );
+	    wp_enqueue_script( 'lazyload_admin_js', plugins_url( '../js/min/admin-ck.js' , __FILE__ ), array('jquery', 'jquery-ui-tabs', 'wp-color-picker' ) );
 	}
 
 	function lazyload_admin_css() {
 		wp_enqueue_style( 'lazyload-admin-css', plugins_url('../css/min/admin.css', __FILE__) );
 		wp_enqueue_style( 'lazyload-admin-css-tooltips', plugins_url('../css/min/admin-tooltips.css', __FILE__) );
-		wp_enqueue_style( 'farbtastic' );	// Required for colour picker
+		wp_enqueue_style( 'wp-color-picker' );	// Required for colour picker
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'lazyload-admin-rtl', plugins_url('../css/min/admin-rtl.css', __FILE__) );

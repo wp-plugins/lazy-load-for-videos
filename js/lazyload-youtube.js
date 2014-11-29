@@ -38,6 +38,8 @@ jQuery.noConflict();
         theme: 'dark', // possible: dark, light
         colour: 'red', // possible: red, white
         controls: true,
+        loadpolicy: true,
+        showinfo: true,
         relations: true,
         buttonstyle: '',
         preroll: '',
@@ -235,6 +237,10 @@ jQuery.noConflict();
       if ($_o.colour !== colour && $_o.colour !== undefined && $_o.colour !== 'red') {
         colour = '&color=' + $_o.colour;
       }
+      var showinfo = '';
+      if (!$_o.showinfo) {
+        showinfo = '&showinfo=0';
+      }      
       var relations = '';
       if (!$_o.relations) {
         relations = '&rel=0';
@@ -242,6 +248,10 @@ jQuery.noConflict();
       var controls = '';
       if (!$_o.controls) {
         controls = '&controls=0';
+      }
+      var loadpolicy = '';
+      if (!$_o.loadpolicy) {
+        loadpolicy = '&iv_load_policy=3';
       }
 
       /*
@@ -265,7 +275,7 @@ jQuery.noConflict();
       /*
        * Generate URL
        */
-      emu += ((emu.indexOf("?") === -1) ? "?" : "&") + "autoplay=1" + theme + colour + controls + relations + playlist;
+      emu += ((emu.indexOf("?") === -1) ? "?" : "&") + "autoplay=1" + theme + colour + controls + loadpolicy + showinfo + relations + playlist;
 
       /*
        * Generate iFrame

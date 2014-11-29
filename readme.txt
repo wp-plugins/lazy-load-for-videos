@@ -2,9 +2,9 @@
 Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
-Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 2.0.7
+Requires at least: 3.5
+Tested up to: 4.0.1
+Stable tag: 2.1
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -35,9 +35,8 @@ Demo on the developer’s website: [kevinw.de/lazy-load-videos/](http://kevinw.d
 = Future features: =
 * (Better) support with specific plugins
 * Support for new/other formats, like SoundCloud, SlideShare and Spotify 
-* Create a custom "Play" button with a colour picker
+* Create a custom "Play" button using a colour picker
 * More "Play" button styles
-* Video preview image for feeds
 * Track how often the videos have been loaded with Google Analytics
 * What you suggest
 
@@ -54,7 +53,7 @@ If you don't see a preview image instead of the Youtube/Vimeo video, open the po
 
 NOTICE - this is important to make your videos work as expected:
 Easily insert the URL to your content (e.g. Youtube video) into a post or page. The URL must be on its own line and must not be hyperlinked. "WordPress will automatically turn [the URL] into a YouTube embed when the post is viewed." (Source: http://codex.wordpress.org/Embeds)
-Inserting a Youtube <iframe> (instead of the plain URL) is deprecated and not supported by Lazy Load for Videos.
+Inserting a Youtube iframe (instead of the plain URL) is deprecated and not supported by Lazy Load for Videos.
 
 
 == Frequently Asked Questions ==
@@ -106,6 +105,13 @@ function lazyload_videos_set_post_types( $post_types ) {
 }
 add_action( 'lazyload_videos_post_types', 'lazyload_videos_set_post_types' );`
 
+= How to use a custom play button? =
+For now, you can choose the "Youtube button image" from the play button drop-down list, then add the following custom CSS that includes a link to your custom CSS play button image:
+`.preview-youtube .lazy-load-youtube-div, .lazy-load-vimeo-div {
+	background-image: url(INSERT-YOUR-URL-HERE.../images/play.png);
+}`
+Feature versions might include an option to change the colour of your CSS-only buttons using a colour picker and might also include an option to directly upload the desired button image.
+
 = Solved: The plugin isn't working with Jetpack... =
 "Jetpack" by WordPress.com offers some useful extensions. Only one of them makes Lazy Load for Videos break – the "Shortcode Embeds" extension. So simply disable the extension. (In order to see a "Deactivate" button for "Shortcode Embeds" on the Jetpack's extension overview, you must click on "Learn More".)
 
@@ -118,6 +124,13 @@ add_action( 'lazyload_videos_post_types', 'lazyload_videos_set_post_types' );`
 
 
 == Changelog ==
+
+= 2.1 =
+* New feature: Add schema.org markup to your Youtube and Vimeo videos.
+* New feature: Hide title/uploader. Don't display information like the video title and uploader when the video starts playing.
+* New feature: Hide annotations (such as "subscribe to channel").
+* Improved colour picker.
+* Fix: Made 'Update Posts' working again.
 
 = 2.0.7 =
 * Added red play button to the list of play buttons.
