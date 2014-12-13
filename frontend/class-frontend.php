@@ -18,8 +18,11 @@ class Lazyload_Videos_Frontend {
 		add_action( 'wp_head', array( $lazyload_frontend, 'enable_lazyload_js' ) );
 	}
 	function enable_lazyload_js() {
-		wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/lazyload-video.js' , __FILE__ ) );
-		?>
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+			wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/lazyload-video.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
+		} else {
+			wp_enqueue_script( 'lazyload_vimeo_js', plugins_url( '../js/min/lazyload-video-ck.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
+		} ?>
 		<script>
 
 		var $lazyload_video = jQuery.noConflict();
@@ -130,7 +133,7 @@ class Lazyload_Videos_Frontend {
 	 * Don't load scripts on specific circumstances
 	 */
 	function test_if_scripts_should_be_loaded() {
-		$lazyload_videos_general = new Lazyload_Videos_General();
+		global $lazyload_videos_general;
 		
 		return
 			( get_option('ll_opt_load_scripts') != '1' ) ||	// Option "Support for Widgets (Youtube only)" is checked

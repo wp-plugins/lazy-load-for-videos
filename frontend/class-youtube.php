@@ -15,8 +15,11 @@ class Lazyload_Videos_Youtube extends Lazyload_Videos_Frontend {
 	 */
 	function enable_lazyload_js() {
 		if ( parent::test_if_scripts_should_be_loaded() && (get_option('lly_opt') !== '1') ) {
-			wp_enqueue_script( 'lazyload_youtube_js', plugins_url( '../js/min/lazyload-youtube-ck.js' , __FILE__ ) );
-			?>
+			if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+				wp_enqueue_script( 'lazyload_youtube_js', plugins_url( '../js/lazyload-youtube.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
+			} else {
+				wp_enqueue_script( 'lazyload_youtube_js', plugins_url( '../js/min/lazyload-youtube-ck.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
+			} ?>
 			<script>
 			var $lly = jQuery.noConflict();
 
@@ -30,7 +33,7 @@ class Lazyload_Videos_Youtube extends Lazyload_Videos_Frontend {
 					controls: <?php if (get_option("lly_opt_player_controls") == "1") { echo "false"; } else { echo "true"; } ?>,
 					loadpolicy: <?php if (get_option("lly_opt_player_loadpolicy") == "1") { echo "false"; } else { echo "true"; } ?>,
 					responsive: <?php if (get_option("ll_opt_load_responsive") == "1") { echo "true"; } else { echo "false"; } ?>,
-					thumbnailquality: '<?= $this->thumbnailquality(); ?>',
+					thumbnailquality: '<?php echo $this->thumbnailquality(); ?>',
 					<?php do_action( 'lly_set_options' ); ?>
 				});
 			});
@@ -43,31 +46,8 @@ class Lazyload_Videos_Youtube extends Lazyload_Videos_Frontend {
  	 * Test which thumbnail quality should be used
  	 */
  	function thumbnailquality() {
-		global $post;
-		$thumbnailquality_default = '0';
-		$thumbnailquality = $thumbnailquality_default;
-
-		if (!isset($post->ID)) {
-			$id = null;
-		}
-		else {
-			$id = $post->ID;
-		}
-		
-		// When the individual status for a page/post is '0', all the other setting don't matter.
-		if (
-			( get_post_meta( $id, 'lazyload_thumbnail_quality', true ) && get_post_meta( $id, 'lazyload_thumbnail_quality', true ) === '0' )
-			) {
-			return $thumbnailquality;
-		}
-		elseif (
-			( get_post_meta( $id, 'lazyload_thumbnail_quality', true ) && get_post_meta( $id, 'lazyload_thumbnail_quality', true ) === 'max' )
-			|| ( ( get_post_meta( $id, 'lazyload_thumbnail_quality', true ) !== '0' ) && ( get_option('lly_opt_thumbnail_quality') === 'max' ) )
-			) {
-			$thumbnailquality = 'maxresdefault';
-		}
-
-		return $thumbnailquality;
+		global $lazyload_videos_general;
+		return $lazyload_videos_general->get_thumbnail_quality();
  	}
 
 }

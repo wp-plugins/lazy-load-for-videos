@@ -4,7 +4,7 @@ Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile
 Requires at least: 3.5
 Tested up to: 4.0.1
-Stable tag: 2.1.1
+Stable tag: 2.1.4
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -96,6 +96,8 @@ Easily insert the URL to your content (e.g. Youtube video) into a post or page. 
 Inserting a Youtube <iframe> (instead of the plain URL) is deprecated and not supported by Lazy Load for Videos.
 
 = How to add support for custom post types? =
+UPDATE: Since plugin version 2.1.2, every custom post type is supported automatically. So you can ignore the following instructions. They will be removed with one of the next updates.
+
 You can use a filter to add support for a custom post type (since version 2.0.4).
 Replace 'post_type_label' with the name/label of your custom post type.
 
@@ -127,6 +129,14 @@ Feature versions might include an option to change the colour of your CSS-only b
 
 
 == Changelog ==
+
+= 2.1.4 =
+* Improvement: MUCH ENHANCED performance when updating all posts. Fewer queries, faster execution. Should fix the "Allowed memory size exhausted" issue that appeared on large sites with many posts.
+* Improvement: Support every kind of post type.
+* Fix/new feature: By default, max resolution is only used when a singular post/page is displayed. Users can choose to also load high quality thumbnails on archives and other pages using a "force" checkbox.
+* Fix: Replaced '<?=' with '<?php echo'.
+* Improvement: Use not minified JavaScript files when SCRIPT_DEBUG is true (defined in wp-config.php).
+* Added version number to scripts.
 
 = 2.1.1 =
 * Fix: Replaced incorrect 'INCOLL_TDM_TD' variable.

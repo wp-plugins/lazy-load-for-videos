@@ -21,8 +21,7 @@ class Lazyload_Videos_Meta {
 	}
 
 	function add_meta_box() {
-		$lazyload_videos_general = new Lazyload_Videos_General();
-		
+		global $lazyload_videos_general;
 		$screens = $lazyload_videos_general->get_post_types();
 
 		foreach ( $screens as $screen ) {
@@ -65,7 +64,7 @@ class Lazyload_Videos_Meta {
 
 		<h4>Youtube thumbnail quality</h4>
 		<p>
-			<select class="select" type="select" name="<?= $select_thumbnail_quality; ?>" id="<?= $select_thumbnail_quality; ?>">
+			<select class="select" type="select" name="<?php echo $select_thumbnail_quality; ?>" id="<?php $select_thumbnail_quality; ?>">
 			<?php $meta_element_class = get_post_meta($post->ID, $select_thumbnail_quality, true);	?>
 		      <option value="default" <?php selected( $meta_element_class, 'default' ); ?>>Default</option>
 		      <option value="0" <?php selected( $meta_element_class, '0' ); ?>>Standard quality</option>
