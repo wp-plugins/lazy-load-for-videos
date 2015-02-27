@@ -21,22 +21,27 @@ class Lazyload_Videos_Youtube extends Lazyload_Videos_Frontend {
 				wp_enqueue_script( 'lazyload_youtube_js', plugins_url( '../js/min/lazyload-youtube-ck.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
 			} ?>
 			<script>
-			var $lly = jQuery.noConflict();
+			(function ( $ ) {
 
-			$lly(document).ready(function() {
-				lazyload_youtube.init({
-					theme: '<?php if (get_option("lly_opt_player_colour") == "") { echo "dark"; } else { echo get_option("lly_opt_player_colour"); } ?>',
-					colour: '<?php if (get_option("lly_opt_player_colour_progress") == "") { echo "red"; } else { echo get_option("lly_opt_player_colour_progress"); } ?>',
-					showinfo: <?php if (get_option("lly_opt_player_showinfo") == "1") { echo "false"; } else { echo "true"; } ?>,
-					relations: <?php if (get_option("lly_opt_player_relations") == "1") { echo "false"; } else { echo "true"; } ?>,
-					buttonstyle: '<?php if (get_option("ll_opt_button_style") == "") { echo ""; } else { echo get_option("ll_opt_button_style"); } ?>',
-					controls: <?php if (get_option("lly_opt_player_controls") == "1") { echo "false"; } else { echo "true"; } ?>,
-					loadpolicy: <?php if (get_option("lly_opt_player_loadpolicy") == "1") { echo "false"; } else { echo "true"; } ?>,
-					responsive: <?php if (get_option("ll_opt_load_responsive") == "1") { echo "true"; } else { echo "false"; } ?>,
-					thumbnailquality: '<?php echo $this->thumbnailquality(); ?>',
-					<?php do_action( 'lly_set_options' ); ?>
+				$(document).ready(function() {
+					lazyload_youtube.init({
+						theme: '<?php if (get_option("lly_opt_player_colour") == "") { echo "dark"; } else { echo get_option("lly_opt_player_colour"); } ?>',
+						colour: '<?php if (get_option("lly_opt_player_colour_progress") == "") { echo "red"; } else { echo get_option("lly_opt_player_colour_progress"); } ?>',
+						showinfo: <?php if (get_option("lly_opt_player_showinfo") == "1") { echo "false"; } else { echo "true"; } ?>,
+						relations: <?php if (get_option("lly_opt_player_relations") == "1") { echo "false"; } else { echo "true"; } ?>,
+						buttonstyle: '<?php if (get_option("ll_opt_button_style") == "") { echo ""; } else { echo get_option("ll_opt_button_style"); } ?>',
+						controls: <?php if (get_option("lly_opt_player_controls") == "1") { echo "false"; } else { echo "true"; } ?>,
+						loadpolicy: <?php if (get_option("lly_opt_player_loadpolicy") == "1") { echo "false"; } else { echo "true"; } ?>,
+						responsive: <?php if (get_option("ll_opt_load_responsive") == "1") { echo "true"; } else { echo "false"; } ?>,
+						thumbnailquality: '<?php echo $this->thumbnailquality(); ?>',
+						preroll: '<?php if (get_option("lly_opt_player_preroll") == "") { echo ""; } else { echo get_option("lly_opt_player_preroll"); } ?>',
+						postroll: '<?php if (get_option("lly_opt_player_postroll") == "") { echo ""; } else { echo get_option("lly_opt_player_postroll"); } ?>',
+						<?php do_action( 'lly_set_options' ); ?>
+						callback: function(){ <?php echo $this->callback(); ?> },
+					});
 				});
-			});
+
+			})(jQuery);
 			</script>
 			<?php
 		}
@@ -48,6 +53,15 @@ class Lazyload_Videos_Youtube extends Lazyload_Videos_Frontend {
  	function thumbnailquality() {
 		global $lazyload_videos_general;
 		return $lazyload_videos_general->get_thumbnail_quality();
+ 	}
+
+ 	/**
+ 	 * Callback
+ 	 * expects JavaScript code as string
+ 	 */
+ 	function callback() {
+ 		$js = apply_filters( 'lly_set_callback', '' );
+ 		return $js;
  	}
 
 }

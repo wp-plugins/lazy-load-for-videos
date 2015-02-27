@@ -151,12 +151,14 @@ class Lazyload_Videos_Admin {
 		<?php } ?>
 
 		<div id="tabs" class="ui-tabs">
-			<h2>Lazy Load for Videos <span class="subtitle">by <a href="http://kevinw.de/ll" target="_blank" title="Website by Kevin Weber">Kevin Weber</a> (Version <?php echo LL_VERSION; ?>)</span></h2>
+			<h2>Lazy Load for Videos <span class="subtitle">by <a href="http://kevinw.de/ll" target="_blank" title="Website by Kevin Weber">Kevin Weber</a> (Version <?php echo LL_VERSION; ?>)</span>
+				<br><span class="claim" style="font-size:15px;font-style:italic;position:relative;top:-7px;"><?php esc_html_e( 'Speed up your site and customise your video player!', LL_TD ); ?></span>
+			</h2>
 	
 			<ul class="ui-tabs-nav">
-		        <li><a href="#general">General/Styling <span class="newred_dot">&bull;</span></a></li>
+		        <li><a href="#general">General/Styling</a></li>
 		        <li><a href="#youtube">Youtube <span class="newred_dot">&bull;</span></a></li>
-		    	<li><a href="#vimeo">Vimeo <span class="newred_dot">&bull;</span></a></li>
+		    	<li><a href="#vimeo">Vimeo</a></li>
 		        <?php do_action( 'lazyload_settings_page_tabs_link_after' ); ?>
 		    </ul>
 
@@ -180,13 +182,13 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 				        	<tr valign="top">
-						        <th scope="row"><label>Responsive Mode</label></th>
+						        <th scope="row"><label>Responsive Mode <span class="newred grey">Tip</span></label></th>
 						        <td>
 									<input name="ll_opt_load_responsive" type="checkbox" value="1" <?php checked( '1', get_option( 'll_opt_load_responsive' ) ); ?> /> <label>Check this to improve responsiveness. Video aspect ratio will be 16:9.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Play Button <span class="newred">New red button!</span></label></th>
+					        	<th scope="row"><label>Play Button</label></th>
 						        <td>
 									<select class="select" typle="select" name="ll_opt_button_style">
 										<option value="default"<?php if (get_option('ll_opt_button_style') === 'default') { echo ' selected="selected"'; } ?>>White (CSS-only)</option>
@@ -249,7 +251,16 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Default thumbnail quality <span class="newred">Updated!</span></label></th>
+					        	<th scope="row"><label>Pre-roll/post-roll ads <span class="newred">New!</span><span class="description thin"><br>Sell advertising space!</span></label></th>
+					        	<td>
+					        		<strong style="width:80px;display:inline-block">Pre-roll</strong> <input type="text" name="lly_opt_player_preroll" placeholder="" value="<?php echo get_option('lly_opt_player_preroll'); ?>" /><br>
+					        		<strong style="width:80px;display:inline-block">Post-roll</strong> <input type="text" name="lly_opt_player_postroll" placeholder="" value="<?php echo get_option('lly_opt_player_postroll'); ?>" /> (multiple IDs allowed)<br>
+					        		<br>
+					        		<label>Convert all Youtube videos into a playlist and automatically add your corporate video, product teaser or another video advertisement. You have to insert the plain Youtube <b>video ID</b>, like <b>Dp2mI9AgiGs</b> or a comma-separated list of video IDs (<i>Dp2mI9AgiGs,IJNR2EpS0jw</i>).</label><br><br><label>&raquo;I'm very proud of this feature because it gives you a new space to promote your brand or sell advertisements! An advertiser might pay to play his video before your actual video starts to play. Isn't this an amazing opportunity?&laquo;<br>&ndash; <a href="http://kevinw.de/ll" target="_blank">Kevin Weber</a>, marketing technologist and developer of this plugin</label><br><br><label>Play around with this plugin, and then consider to get premium or say "Thank you" with an appropriate <a href="http://kevinw.de/donate/LazyLoadVideos/" title="Pay Kevin Weber something to eat" target="_blank">donation</a>.</label>
+					        	</td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Default thumbnail quality</label></th>
 						        <td>
 									<select class="select" typle="select" name="lly_opt_thumbnail_quality">
 										<option value="0"<?php if (get_option('lly_opt_thumbnail_quality') === '0') { echo ' selected="selected"'; } ?>>Standard quality</option>
@@ -284,7 +295,13 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Hide title/uploader <span class="newred">New!</span></label></th>
+					        	<th scope="row"><label>Hide annotations <span class="newred grey">Tip</span></label></th>
+						        <td>
+									<input name="lly_opt_player_loadpolicy" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_loadpolicy' ) ); ?> /> <label>If checked, video annotations (like "subscribe to channel") will not be shown.</label>
+						        </td>
+					        </tr>
+					        <tr valign="top">
+					        	<th scope="row"><label>Hide title/uploader</label></th>
 						        <td>
 									<input name="lly_opt_player_showinfo" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_showinfo' ) ); ?> /> <label>If checked, information like the video title and uploader will not be displayed when the video starts playing. This option only affects the playing video, not the video thumbnail.</label>
 						        </td>
@@ -299,12 +316,6 @@ class Lazyload_Videos_Admin {
 					        	<th scope="row"><label>Hide player controls</label></th>
 						        <td>
 									<input name="lly_opt_player_controls" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_controls' ) ); ?> /> <label>If checked, Youtube player controls will not be displayed.</label>
-						        </td>
-					        </tr>
-					        <tr valign="top">
-					        	<th scope="row"><label>Hide annotations <span class="newred">New!</span></label></th>
-						        <td>
-									<input name="lly_opt_player_loadpolicy" type="checkbox" value="1" <?php checked( '1', get_option( 'lly_opt_player_loadpolicy' ) ); ?> /> <label>If checked, video annotations (like "subscribe to channel") will not be shown.</label>
 						        </td>
 					        </tr>
 					        <tr valign="top">
@@ -336,7 +347,7 @@ class Lazyload_Videos_Admin {
 						        </td>
 					        </tr>
 					        <tr valign="top">
-					        	<th scope="row"><label>Colour of the vimeo controls <span class="newred">Improved</span></label></th>
+					        	<th scope="row"><label>Colour of the vimeo controls</label></th>
 					        	<td>
 					        		<input id="llv_picker_input_player_colour" class="ll_picker_player_colour picker-input" type="text" name="llv_opt_player_colour" data-default-color="#00adef" value="<?php if (get_option("llv_opt_player_colour") == "") { echo "#00adef"; } else { echo get_option("llv_opt_player_colour"); } ?>" />
 					        	</td>
@@ -350,7 +361,7 @@ class Lazyload_Videos_Admin {
 			    <?php submit_button(); ?>
 			</form>
 
-	 		<div class="update-posts notice clear-both">
+	 		<div class="update-posts notice">
 				<form action="options-general.php?page=<?php echo LL_ADMIN_URL; ?>" method="post">
 				   <input type="hidden" name="update_posts" value="with_oembed" />
 				   <input class="button update-posts" type="submit" value="Update Posts" />
@@ -364,7 +375,7 @@ class Lazyload_Videos_Admin {
 
 		    <table class="form-table">
 		        <tr valign="top">
-			        <th scope="row" style="width:100px;"><a href="http://kevinw.de/ll" target="_blank"><img src="http://www.gravatar.com/avatar/9d876cfd1fed468f71c84d26ca0e9e33?d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536&s=100" style="-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;"></a></th>
+			        <th scope="row" style="width:100px;"><a href="http://kevinw.de/ll" target="_blank"><img src="https://www.gravatar.com/avatar/9d876cfd1fed468f71c84d26ca0e9e33?d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536&s=100" style="-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;"></a></th>
 			        <td style="width:200px;">
 			        	<p><a href="http://kevinw.de/ll" target="_blank">Kevin Weber</a> &ndash; that's me.<br>
 			        	I'm the developer of this plugin. I hope you enjoy it!</p>
@@ -390,12 +401,12 @@ class Lazyload_Videos_Admin {
 	}
 
 	function lazyload_admin_css() {
-		wp_enqueue_style( 'lazyload-admin-css', plugins_url('../css/min/admin.css', __FILE__) );
-		wp_enqueue_style( 'lazyload-admin-css-tooltips', plugins_url('../css/min/admin-tooltips.css', __FILE__) );
+		wp_enqueue_style( 'lazyload-admin-css', plugins_url('../css/min/admin.min.css', __FILE__) );
+		wp_enqueue_style( 'lazyload-admin-css-tooltips', plugins_url('../css/min/admin-tooltips.min.css', __FILE__) );
 		wp_enqueue_style( 'wp-color-picker' );	// Required for colour picker
 
 		if ( is_rtl() ) {
-			wp_enqueue_style( 'lazyload-admin-rtl', plugins_url('../css/min/admin-rtl.css', __FILE__) );
+			wp_enqueue_style( 'lazyload-admin-rtl', plugins_url('../css/min/admin-rtl.min.css', __FILE__) );
 		}
 	}
 

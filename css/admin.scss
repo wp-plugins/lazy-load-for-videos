@@ -15,7 +15,7 @@ $grey_medium: #999;
   #{$property}: #{$value};
 }
 
-h2 {
+#tabs h2 {
 	font-size: 23px;
 	line-height: 29px;
 }
@@ -24,14 +24,28 @@ p.notice {
 	padding: 0 10px;
 }
 
+.ui-tabs .update-posts.notice {
+	background: none;
+	box-shadow: none;
+	border-left-color: transparent;
+	margin-left: 0;
+	padding-left: 0;
+	border-left: 0;
+}
+
 .update-posts {
 	&.notice {
 		position: relative;
 		top: -14px;
+		border: 0;
+		margin-left: 0;
+		padding-left: 0;
+		background: none;
+		box-shadow: none;
 		form {
 			display: inline;
-			float: left;
 			width: initial;
+			float: left;
 		}
 	}
 	&.updated {
@@ -224,7 +238,7 @@ div#informations div#text li.center {
 	color: red;
 	float: right;
 }
-.newred.grey{
+.newred.grey {
 	color: #999;
 }
 .newred_dot{
@@ -235,6 +249,10 @@ div#informations div#text li.center {
 }
 .orange {
 	color: #f90;
+}
+
+#mc_embed_signup {
+	clear: both;
 }
 
 #mc_embed_signup label {

@@ -24,15 +24,16 @@ class Lazyload_Videos_Frontend {
 			wp_enqueue_script( 'lazyload-video-js', plugins_url( '../js/min/lazyload-video-ck.js' , __FILE__ ), array( 'jquery' ), LL_VERSION );
 		} ?>
 		<script>
+		( function ( $ ) {
 
-		var $lazyload_video = jQuery.noConflict();
-
-		$lazyload_video(window).on( "load", function() {
-			lazyload_video.init({
-				displayBranding: 'true',
-				<?php do_action( 'lly_set_options' ); ?>
+			$(window).on( "load", function() {
+				lazyload_video.init({
+					displayBranding: 'true',
+					<?php do_action( 'lly_set_options' ); ?>
+				});
 			});
-		});
+
+		})(jQuery);
 		</script>
 		<?php
 	}
@@ -42,9 +43,9 @@ class Lazyload_Videos_Frontend {
 	 */
 	function load_lazyload_style() {
 		if ( $this->test_if_scripts_should_be_loaded() ) {
-			wp_register_style( 'lazyload-style', plugins_url('css/min/style-lazyload.css', plugin_dir_path( __FILE__ )) );
-			wp_enqueue_style( 'lazyload-style' );
 			wp_enqueue_script( 'jquery' ); // Enable jQuery (comes with WordPress)
+			wp_register_style( 'lazyload-style', plugins_url('css/min/style-lazyload.min.css', plugin_dir_path( __FILE__ )) );
+			wp_enqueue_style( 'lazyload-style' );
 		}
 	}
 

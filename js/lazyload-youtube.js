@@ -2,8 +2,6 @@
  * Lazy Load Youtube
  * by Kevin Weber (kevinw.de)
  */
-
-jQuery.noConflict();
 (function( lazyload_youtube, $, undefined ) {
 
   // Classes
@@ -30,6 +28,10 @@ jQuery.noConflict();
       responsiveVideos.init();
     }
 
+    if (typeof $_o.callback === 'function') {
+        $_o.callback();
+    }
+
   };
 
   var $_o;
@@ -47,6 +49,7 @@ jQuery.noConflict();
         videoseo: false,
         responsive: true,
         thumbnailquality: '0',
+        callback: null,
       },
       options);
   };
