@@ -3,8 +3,8 @@ Contributors: kevinweber
 Donate link: http://kevinw.de/donate/LazyLoadVideos/
 Tags: youtube, vimeo, performance, admin, plugin, content, video, page, jquery, mobile, lazy load
 Requires at least: 3.5
-Tested up to: 4.2
-Stable tag: 2.2.0.2
+Tested up to: 4.2.2
+Stable tag: 2.2.0.3
 License: GPL v3
 License URI: http://www.gnu.org/copyleft/gpl.html
 
@@ -67,7 +67,7 @@ Inserting a Youtube iframe (instead of the plain URL) is deprecated and not supp
 Search for keywords using "STRG + F" keyboard shortcut (Mac: "CMD + F").
 
 = Where can I see this plugin in use? =
-For example, on http://kevinw.de/greenbird/.
+For example, on [kevinw.de/lazy-load-videos/](http://kevinw.de/lazy-load-videos/).
 
 = Which video platforms are supported? =
 Videos from the biggest video platform, Youtube (http://youtube.com), and Vimeo (http://vimeo.com) are supported.
@@ -137,6 +137,10 @@ Note that playlists are not working when you're using the pre-/post-roll feature
 
 
 == Changelog ==
+
+= 2.2.0.3 =
+* Fix: Updated URL definitions to improve js minify (merge request via Github by @sigginet)
+* Changed the background colour of loading preview images from black to transparent. You can use the following custom CSS to use black instead: .preview-lazyload { background-color: #000 !important; }
 
 = 2.2.0.2 =
 * Fixed not working pre-roll and post-roll feature (values had not been stored).
